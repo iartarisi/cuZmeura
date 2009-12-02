@@ -1,4 +1,4 @@
-# Django settings for flossad project.
+# Django settings for chematoru project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -63,10 +63,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'flossad.urls'
+ROOT_URLCONF = 'chematoru.urls'
 
 TEMPLATE_DIRS = (
-    '/home/mapleoin/flossad/templates',
+    'templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -77,7 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     # 'django.contrib.sites',
-    'flossad.ads',
+    'chematoru.ads',
     'django.contrib.admin',
     
 )

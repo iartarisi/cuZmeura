@@ -1,5 +1,5 @@
 from django.contrib import admin
-from flossad.ads.models import Ad, Advertiser, Publisher
+from chematoru.ads.models import Ad, Advertiser, Publisher
 
 admin.site.register(Ad)
 admin.site.register(Advertiser)
