@@ -1,0 +1,30 @@
+body {
+    background: url('/static/stripes.png') top left repeat-y #6CBD87;
+    padding: 2em;
+    font-family: sans-serif;
+    color: #FFBDB9;
+}
+
+h1 {
+    font-size: 5em;
+    padding: 0;
+    margin: 0;
+
+}
+
+h2 {
+    font-size: 3em;
+    margin: 0;
+
+}
+#container {
+    font-size: 1.2em;
+    width: 60%;
+    color: white;
+    padding: 4em;
+    margin-left: auto;
+}
+
+img {
+    border: 0;
+}
