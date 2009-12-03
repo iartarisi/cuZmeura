@@ -1,5 +1,5 @@
 body {
-    background: url('/static/stripes.png') top left repeat-y #6CBD87;
+    background: url('stripes.png') top left repeat-y #6CBD87;
     padding: 2em;
     font-family: sans-serif;
     color: #FFBDB9;

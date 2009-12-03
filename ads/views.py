@@ -1,7 +1,7 @@
 from random import randint
 
 from django.shortcuts import render_to_response, HttpResponse
-from ads.models import Ad, Publisher
+from chematoru.ads.models import Ad, Publisher
 
 def serve(self, pubid):
     publisher = Publisher.objects.get(id=pubid)
@@ -20,5 +20,5 @@ def serve(self, pubid):
 
 def index(self):
     return render_to_response('index.html', {
-        'domain': "http://localhost:8000"})
+        'domain': "http://chematoru.ceata.org"})
 
