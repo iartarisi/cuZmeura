@@ -14,7 +14,7 @@ def serve(self, pubid):
     ad.impressions += 1
     ad.save()
     return render_to_response('serve.html', {
-        'publisher_url' : publisher.url,
+        'publisher_url' : ad.advertiser.url,
         'ad_name' : ad.name,
         'ad_url' : ad.image.url})
 
