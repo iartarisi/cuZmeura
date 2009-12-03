@@ -8,6 +8,7 @@ class Advertiser(models.Model):
 
 class Ad(models.Model):
     name = models.CharField(unique=True, max_length=50)
+    url = models.URLField()
     image = models.ImageField(upload_to='ads/')
     advertiser = models.ForeignKey(Advertiser)
     impressions = models.DecimalField(max_digits=3, decimal_places=0, default=0,
