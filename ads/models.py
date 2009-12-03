@@ -8,7 +8,7 @@ class Advertiser(models.Model):
 
 class Ad(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    image = models.ImageField(upload_to='media/ads/')
+    image = models.ImageField(upload_to='ads/')
     advertiser = models.ForeignKey(Advertiser)
     impressions = models.DecimalField(max_digits=3, decimal_places=0, default=0,
                                       editable=False)
@@ -21,4 +21,4 @@ class Publisher(models.Model):
     impressions = models.DecimalField(max_digits=10, decimal_places=0, default=0,
                                       editable=False)
     def __unicode__(self):
-        return u'%s - %s' % (self.name, self.impressions)
+        return u'#%s %s - %s' % (self.id, self.name, self.impressions)
