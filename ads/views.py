@@ -1,15 +1,16 @@
-from random import randint
+import random
 
 from django.shortcuts import render_to_response, HttpResponse
 from chematoru.ads.models import Ad, Publisher
 
-def serve(self, pubid):
+def serve(self, pubid, size='125x125'):
     publisher = Publisher.objects.get(id=pubid)
     publisher.impressions += 1
     publisher.save()
-    
-    ads_count = Ad.objects.count()
-    ad = Ad.objects.get(id= randint(1, ads_count))
+
+    # pulling all matching records isn't optimal, but it's ok at this stage
+    matching_ads = Ad.objects.filter(size__size__exact=size)
+    ad = random.choice(matching_ads)
     
     ad.impressions += 1
     ad.save()

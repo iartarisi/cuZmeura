@@ -1,6 +1,7 @@
 from django.contrib import admin
-from chematoru.ads.models import Ad, Advertiser, Publisher
+from chematoru.ads.models import Ad, AdSize, Advertiser, Publisher
 
 admin.site.register(Ad)
 admin.site.register(Advertiser)
 admin.site.register(Publisher)
+admin.site.register(AdSize)
