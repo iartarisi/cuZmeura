@@ -1,3 +1,5 @@
 settings.py
-*.pyc
+media/admin
 media/ads/
+*.pyc
+*~
