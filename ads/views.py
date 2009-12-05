@@ -20,15 +20,18 @@ import random
 from django.shortcuts import render_to_response, HttpResponse
 from chematoru.ads.models import Ad, Publisher
 
-def serve(request, pubid, size='125x125'):
-    publisher = Publisher.objects.get(id=pubid)
+def serve(request, slugpub=None, size='125x125'):
+    if slugpub:
+        publisher = Publisher.objects.get(slug=slugpub)
+    else:
+        publisher = Publisher.objects.all()[0]
     publisher.impressions += 1
     publisher.save()
 
     # pulling all matching records isn't optimal, but it's ok at this stage
     matching_ads = Ad.objects.filter(size__size__exact=size)
     ad = random.choice(matching_ads)
-    
+
     ad.impressions += 1
     ad.save()
     return render_to_response('serve.html', {
@@ -39,4 +42,3 @@ def serve(request, pubid, size='125x125'):
 def index(request):
     return render_to_response('index.html', {
         'domain': request.get_host()})
-

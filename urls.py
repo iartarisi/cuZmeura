@@ -8,7 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', index),
-    (r'^serve/(\d{1,2})$', serve),
+    (r'^serve/(\w+)?$', serve),
 #    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
 #        {'document_root': '/home/mapleoin/flossad/static'}),
 

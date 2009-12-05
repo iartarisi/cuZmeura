@@ -43,9 +43,10 @@ class Ad(models.Model):
 
 class Publisher(models.Model):
     name = models.CharField(unique=True, max_length=20)
+    slug = models.SlugField(unique=True, max_length=10)
     url = models.URLField()
     impressions = models.DecimalField(max_digits=10, decimal_places=0, default=0,
                                       editable=False)
     def __unicode__(self):
-        return u'#%s %s - %s' % (self.id, self.name, self.impressions)
+        return u'#%s %s - %si' % (self.id, self.name, self.impressions)
 
