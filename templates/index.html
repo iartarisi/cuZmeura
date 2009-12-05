@@ -12,22 +12,22 @@
       românești de arte sau tehnologii libere e să copiezi codul de mai jos pe
       situl tău:</p>
       <textarea rows="8" cols="70" onclick="this.select()">
-        <script type="text/javascript" src="{{ domain }}/serve/5">
+        <script type="text/javascript" src="{{ domain }}serve/default">
           //<![CDATA[
   (function(id) {
        document.write('<script type="text/javascript" src="' +
-       '{{ domain }}/serve/' + id "></' + 'script>');
-       })("5");
+       '{{ domain }}serve/' + id + '"></' + 'script>');
+       })("default");
  //]]>
       </script> </textarea>
       <br /><br />
       <p>Va arăta așa (încearcă să dai refresh):</p>
-      <script type="text/javascript" src="{{ domain }}/serve/5">
+      <script type="text/javascript" src="{{ domain }}serve/default">
         //<![CDATA[
   (function(id) {
        document.write('<script type="text/javascript" src="' +
-       '{{ domain }}/serve/' + id "></' + 'script>');
-       })("5");
+       '{{ domain }}serve/' + id + '"></' + 'script>');
+       })("default");
  //]]>
       </script>
     </div>

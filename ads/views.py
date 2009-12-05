@@ -41,4 +41,4 @@ def serve(request, slugpub=None, size='125x125'):
 
 def index(request):
     return render_to_response('index.html', {
-        'domain': request.get_host()})
+        'domain': request.build_absolute_uri('/')})
