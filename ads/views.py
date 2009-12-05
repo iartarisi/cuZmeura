@@ -20,7 +20,7 @@ import random
 from django.shortcuts import render_to_response, HttpResponse
 from chematoru.ads.models import Ad, Publisher
 
-def serve(self, pubid, size='125x125'):
+def serve(request, pubid, size='125x125'):
     publisher = Publisher.objects.get(id=pubid)
     publisher.impressions += 1
     publisher.save()
@@ -36,7 +36,7 @@ def serve(self, pubid, size='125x125'):
         'ad_name' : ad.name,
         'ad_img_url' : ad.image.url})
 
-def index(self):
+def index(request):
     return render_to_response('index.html', {
-        'domain': "http://chematoru.ceata.org"})
+        'domain': request.get_host()})
 
