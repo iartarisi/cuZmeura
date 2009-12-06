@@ -30,14 +30,6 @@ class AdSize(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.name, self.size)
 
-class Impression(models.Model):
-    ip = models.IPAddressField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    referer = models.URLField()
-    ad = models.ForeignKey(Ad)
-    def __unicode__(self):
-        return u'%s %s ref: %s' % (self.ip, self.timestamp, self.referer)
-
 class Ad(models.Model):
     name = models.CharField(unique=True, max_length=50)
     url = models.URLField()
@@ -45,14 +37,21 @@ class Ad(models.Model):
     advertiser = models.ForeignKey(Advertiser)
     size = models.ForeignKey(AdSize)
     def __unicode__(self):
-        return u'#%s %s - %s' % (self.id, self.name, self.impressions)
+        return u'#%s %s' % (self.id, self.name)
+
+class Impression(models.Model):
+    ip = models.IPAddressField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    referer = models.URLField(null=True)
+    ad = models.ForeignKey(Ad)
+    def __unicode__(self):
+        return u'%s %s ref: %s' % (self.ip, self.timestamp, self.referer)
 
 class Publisher(models.Model):
     name = models.CharField(unique=True, max_length=20)
     slug = models.SlugField(unique=True, max_length=10)
     url = models.URLField()
-    impressions = models.DecimalField(max_digits=10, decimal_places=0, default=0,
-                                      editable=False)
+
     def __unicode__(self):
-        return u'#%s %s - %si' % (self.id, self.name, self.impressions)
+        return u'#%s %s' % (self.id, self.name)
 

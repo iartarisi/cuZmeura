@@ -18,22 +18,23 @@
 import random
 
 from django.shortcuts import render_to_response, HttpResponse
-from chematoru.ads.models import Ad, Publisher
+from chematoru.ads.models import Ad, Impression
 
 def serve(request, slugpub=None, size='125x125'):
-    if slugpub:
-        publisher = Publisher.objects.get(slug=slugpub)
-    else:
-        publisher = Publisher.objects.all()[0]
-    publisher.impressions += 1
-    publisher.save()
-
     # pulling all matching records isn't optimal, but it's ok at this stage
     matching_ads = Ad.objects.filter(size__size__exact=size)
     ad = random.choice(matching_ads)
 
-    ad.impressions += 1
-    ad.save()
+    if request.META.has_key("HTTP_REFERER"):
+        referer = request.META["HTTP_REFERER"]
+    else:
+        referer = None
+        
+    impression = Impression.objects.create(ip=request.META["REMOTE_ADDR"],
+                                           referer = referer,
+                                           ad = ad)
+    impression.save()
+
     return render_to_response('serve.html', {
         'ad_url' : ad.url,
         'ad_name' : ad.name,
