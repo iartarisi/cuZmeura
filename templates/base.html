@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Pristav - rețea de publicitate FLOSS</title>
+    <link rel="stylesheet" type="text/css" href="/media/style.css" />
+  </head>
+  <body>
+    <div id="authentication" style="color: white">
+      {% if user.is_authenticated %}
+        <h4>Sal! {{ user.username }}</h4>
+        <a href="/logout/">Logout</a>
+      {% else %}
+        <a href="/login/">Login</a>
+      {% endif %}
+    </div>
+
+    <div id="container">
+      {% block content %}{% endblock %}
+    </div>
+    
+  </body>
+</html>
