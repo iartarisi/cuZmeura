@@ -39,7 +39,3 @@ def serve(request, slugpub=None, size='125x125'):
         'ad_url' : ad.url,
         'ad_name' : ad.name,
         'ad_img_url' : ad.image.url})
-
-def index(request):
-    return render_to_response('index.html', {
-        'domain': request.build_absolute_uri('/')})
