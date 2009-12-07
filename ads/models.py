@@ -16,6 +16,7 @@
 # along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.contrib.auth.models import User
 
 class Advertiser(models.Model):
     name = models.CharField(unique=True, max_length=50)
@@ -51,7 +52,8 @@ class Publisher(models.Model):
     name = models.CharField(unique=True, max_length=20)
     slug = models.SlugField(unique=True, max_length=10)
     url = models.URLField()
-
+    owner = models.ForeignKey(User)
     def __unicode__(self):
-        return u'#%s %s' % (self.id, self.name)
+        return u'#%s %s | Owner: %s' % (self.id, self.name,
+                                        self.owner.username)
 
