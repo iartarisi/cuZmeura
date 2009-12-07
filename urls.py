@@ -9,11 +9,17 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', direct_to_template, {'template' : 'index.html'}),
+
+    (r'^login/$', 'django.contrib.auth.views.login',
+     {'template_name': 'login.html'}),
+
+    (r'^logout/$', 'django.contrib.auth.views.logout',
+     {'next_page' : '/'}),
                        
     (r'^serve/(\w+)?$', serve),
                        
-#    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-#        {'document_root': '/home/mapleoin/flossad/static'}),
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+       {'document_root': '/home/mapleoin/pristav/media'}),
 
     # Example:
     # (r'^flossad/', include('flossad.foo.urls')),
