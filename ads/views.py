@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
-# This file is part of Chemătoru'.
+# This file is part of Pristav.
 # Copyright (c) 2009 Ionuț Arțăriși
 
-# Chematoru' is free software: you can redistribute it and/or modify it under
+# Pristav is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Affero General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option)
 # any later version.
 
-# Chemătoru' is distributed in the hope that it will be useful,
+# Pristav is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 
 # You should have received a copy of the GNU Affero General Public License
-# along with Chemătoru'.  If not, see <http://www.gnu.org/licenses/>.
+# along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
 
 from django.shortcuts import render_to_response, HttpResponse
-from chematoru.ads.models import Ad, Impression
+from pristav.ads.models import Ad, Impression
 
 def serve(request, slugpub=None, size='125x125'):
     # pulling all matching records isn't optimal, but it's ok at this stage
