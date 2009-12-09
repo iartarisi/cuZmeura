@@ -4,17 +4,28 @@
     <link rel="stylesheet" type="text/css" href="/media/style.css" />
   </head>
   <body>
+
     <div id="authentication" style="color: white">
       {% if user.is_authenticated %}
-        <h4>Sal! {{ user.username }}</h4>
-        <a href="/logout/">Logout</a>
+        Sal, <a href="/user/profile/">{{ user.username }}</a> | 
+        <a href="/logout/">Ieșire</a>
       {% else %}
-        <a href="/login/">Login</a>
+        <a href="/login/">Autentificare</a>
       {% endif %}
     </div>
 
     <div id="container">
       {% block content %}{% endblock %}
+    </div>
+
+    <div id="smallprint">
+      <a href="/" alt="pristav">Pristav</a> este un proiect
+      <a href="http://ceata.org" alt="ceata">Ceata</a>.
+      Sursele Pristavului sunt
+      <a href="http://redmine.ceata.org/projects/pristav" alt="sursele">
+        disponibile</a> sub licență
+      <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html"
+         alt="AGPLv3">AGPLv3</a>.
     </div>
     
   </body>
