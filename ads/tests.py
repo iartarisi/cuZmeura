@@ -7,6 +7,14 @@ Replace these with more appropriate tests for your application.
 
 from django.test import TestCase
 
+
+class ServeTests(TestCase):
+    fixtures = ['mydata.json']
+    def test_serve_default_publisher(self):
+        response = self.client.get('/serve/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['ad_url'], u'http://ceata.org/')
+
 class SimpleTest(TestCase):
     def test_basic_addition(self):
         """
