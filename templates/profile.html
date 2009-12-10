@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3>Welcome back, {{ user.username }}</h3>
+<h3>Bine ai revenit, {{ user.username }}</h3>
 
-<h4>Your ads have a total of {{ impressions }} impressions.</h4>
-
-<p>It's a LIE!!</p>
+{% for pub, imp, real in pub_imp %}
+  <p>Pe situl <em>{{ pub }}</em> s-au încarcat până acum <em>{{ imp }}</em>
+    reclame, din care {{ real }} reale.</p>
+{% endfor %}
 
 {% endblock %}

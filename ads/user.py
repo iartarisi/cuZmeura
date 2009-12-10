@@ -19,21 +19,23 @@ from django import forms
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-from pristav.ads.models import Impression, Publisher
+from pristav.ads.models import Impression, Publisher, User
 
 @login_required
 def profile(request):
-    pub = Publisher.objects.get()
-    impressions = Impression.objects.filter(
-        referer='http://localhost:8000/').count()
 
+    cur_user = User.objects.get(username=request.user.username)
+    publishers = Publisher.objects.filter(owner=cur_user)
+
+    # build a dictionary of publisher: impressions
+    pub_imp = []
+    for pub in publishers:
+        imp = Impression.objects.filter(publisher=pub.url).count()
+        real_imp = Impression.objects.filter(referer=pub.url).count()
+        pub_imp.append([pub.name, imp, real_imp])
+    
     return render_to_response("profile.html", {
-        'impressions':impressions},
-                              context_instance=RequestContext(request))
-
-    
-    
-    
-    
-
+        'pub_imp':pub_imp},
+        context_instance=RequestContext(request))

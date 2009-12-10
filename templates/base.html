@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="/media/style.css" />
   </head>
   <body>
-
     <div id="authentication" style="color: white">
       {% if user.is_authenticated %}
         Sal, <a href="/user/profile/">{{ user.username }}</a> | 
@@ -27,6 +26,5 @@
       <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html"
          alt="AGPLv3">AGPLv3</a>.
     </div>
-    
   </body>
 </html>

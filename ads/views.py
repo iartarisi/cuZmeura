@@ -18,8 +18,9 @@
 import random
 
 from django.shortcuts import render_to_response, HttpResponse
-from pristav.ads.models import Ad, Impression
+from pristav.ads.models import Ad, Impression, Publisher
 
+PRISTAVSLUG = 'pristav'
 def serve(request, slugpub=None, size='125x125'):
     # pulling all matching records isn't optimal, but it's ok at this stage
     matching_ads = Ad.objects.filter(size__size__exact=size)
@@ -30,8 +31,14 @@ def serve(request, slugpub=None, size='125x125'):
     else:
         referer = None
         
+    if slugpub:
+        publisher = Publisher.objects.get(slug=slugpub)
+    else:
+        publisher = Publisher.objects.get(slug=PRISTAVSLUG)
+        
     impression = Impression.objects.create(ip=request.META["REMOTE_ADDR"],
                                            referer = referer,
+                                           publisher = publisher.url,
                                            ad = ad)
     impression.save()
 
