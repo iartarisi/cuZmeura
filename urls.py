@@ -9,7 +9,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^$', direct_to_template, {'template' : 'index.html'}),
+    (r'^$', direct_to_template, {'template' : 'index.html',
+                                 'extra_context': {
+                                     'domain':'http://pristav.ceata.org/'}
+                                 }),
 
     (r'^login/$', 'django.contrib.auth.views.login',
      {'template_name': 'login.html'}),
@@ -21,8 +24,8 @@ urlpatterns = patterns('',
 
     (r'^user/profile/$', profile),                       
                        
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-       {'document_root': '/home/mapleoin/pristav/media'}),
+    # (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+    #    {'document_root': '/home/mapleoin/pristav/media'}),
 
     # Example:
     # (r'^flossad/', include('flossad.foo.urls')),
