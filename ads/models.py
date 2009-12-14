@@ -44,6 +44,7 @@ class Impression(models.Model):
     ip = models.IPAddressField()
     timestamp = models.DateTimeField(auto_now_add=True)
     referer = models.URLField(null=True)
+    referer_netloc = models.CharField(max_length=50, null=True)
     publisher = models.URLField()
     ad = models.ForeignKey(Ad)
     def __unicode__(self):

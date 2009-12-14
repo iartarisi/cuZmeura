@@ -16,6 +16,7 @@
 # along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
+from urlparse import urlparse
 
 from django.shortcuts import render_to_response, HttpResponse
 from pristav.ads.models import Ad, Impression, Publisher
@@ -36,10 +37,13 @@ def serve(request, slugpub=None, size='125x125'):
     else:
         publisher = Publisher.objects.get(slug=PRISTAVSLUG)
         
-    impression = Impression.objects.create(ip=request.META["REMOTE_ADDR"],
-                                           referer = referer,
-                                           publisher = publisher.url,
-                                           ad = ad)
+    impression = Impression.objects.create(
+        ip=request.META["REMOTE_ADDR"],
+        referer = referer,
+        referer_netloc = urlparse(referer).netloc if referer else None,
+        publisher = publisher.url,
+        ad = ad
+        )
     impression.save()
 
     return render_to_response('serve.html', {

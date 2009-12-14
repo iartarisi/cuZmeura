@@ -33,7 +33,7 @@ def profile(request):
     pub_imp = []
     for pub in publishers:
         imp = Impression.objects.filter(publisher=pub.url).count()
-        real_imp = Impression.objects.filter(referer=pub.url).count()
+        real_imp = Impression.objects.filter(referer_netloc=pub.url).count()
         pub_imp.append([pub.name, imp, real_imp])
     
     return render_to_response("profile.html", {
