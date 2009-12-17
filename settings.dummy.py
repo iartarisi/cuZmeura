@@ -9,10 +9,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3' 
-DATABASE_NAME = 'pristav.db'       # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
+DATABASE_ENGINE = 'mysql' 
+DATABASE_NAME = 'pristav'       # Or path to database file if using sqlite3.
+DATABASE_USER = 'pristav'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'parola'         # Not used with sqlite3.
 DATABASE_HOST = '' # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = '' # Set to empty string for default. Not used with sqlite3.
 
@@ -21,7 +21,7 @@ DATABASE_PORT = '' # Set to empty string for default. Not used with sqlite3.
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'Europe/Bucharest'
+TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -35,7 +35,7 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/my_user/pristav/media/'
+MEDIA_ROOT = '/home/mapleoin/pristav/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'pristav.urls'
 
 TEMPLATE_DIRS = (
-    '/home/my_user/pristav/templates',
+    '/home/mapleoin/pristav/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
