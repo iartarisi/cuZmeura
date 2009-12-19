@@ -1,10 +1,3 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
 
 
@@ -28,3 +21,31 @@ class ServeTests(TestCase):
         
     def test_serve_pristav_publisher(self):
         self._test_serve_default_publisher('pristav')
+
+    def test_serve_notexists_publisher(self):
+        response = self.client.get('/serve/notfound')
+        self.assertEqual(response.status_code, 404)
+
+    def test_serve_size_match_regex(self):
+        response = self.client.get('/serve/pristav/')
+        self.assertEqual(response.context['ad_size'], '125x125')
+        
+        response = self.client.get('/serve/pristav/125x125')
+        self.assertEqual(response.context['ad_size'], '125x125')
+
+    def test_serve_size_not_found(self):
+        response = self.client.get('/serve/pristav/0x0')
+        self.assertEqual(response.status_code, 404)
+
+    def test_serve_size_mismatch_regex(self):
+        invalid_url = ['/serve/x125',
+                        '/serve/x125',
+                        '/serve/x12y',
+                        '/serve/125x',
+                        '/serve/12yx',
+                        '/serve/125x1y',
+                        '/serve/12yx125',
+                        '/serve/y']
+        for res in invalid_url:
+            response = self.client.get(res)
+            self.assertEqual(response.status_code, 404)

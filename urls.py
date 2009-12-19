@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     (r'^logout/$', 'django.contrib.auth.views.logout',
      {'next_page' : '/'}),
                        
-    (r'^serve/(\w+)?$', serve),
+    (r'^serve/(\w+)?/?(\d+x\d+)?$', serve),
 
     (r'^user/profile/$', profile),                       
                        

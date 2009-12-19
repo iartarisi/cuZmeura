@@ -18,13 +18,19 @@
 import random
 from urlparse import urlparse
 
-from django.shortcuts import render_to_response, HttpResponse
+from django.shortcuts import (render_to_response,
+                              get_object_or_404, get_list_or_404)
 from pristav.ads.models import Ad, Impression, Publisher
 
 PRISTAVSLUG = 'pristav'
-def serve(request, slugpub=None, size='125x125'):
+DEFAULT_SIZE= '125x125'
+
+def serve(request, slugpub=None, size=DEFAULT_SIZE):
+    if size == None:
+        size = DEFAULT_SIZE
+
     # pulling all matching records isn't optimal, but it's ok at this stage
-    matching_ads = Ad.objects.filter(size__size__exact=size)
+    matching_ads = get_list_or_404(Ad, size__size__exact=size)
     ad = random.choice(matching_ads)
 
     if request.META.has_key("HTTP_REFERER"):
@@ -33,7 +39,7 @@ def serve(request, slugpub=None, size='125x125'):
         referer = None
         
     if slugpub:
-        publisher = Publisher.objects.get(slug=slugpub)
+        publisher = get_object_or_404(Publisher, slug=slugpub)
     else:
         publisher = Publisher.objects.get(slug=PRISTAVSLUG)
         
@@ -49,4 +55,6 @@ def serve(request, slugpub=None, size='125x125'):
     return render_to_response('serve.html', {
         'ad_url' : ad.url,
         'ad_name' : ad.name,
-        'ad_img_url' : ad.image.url})
+        'ad_img_url' : ad.image.url,
+        'ad_size' : ad.size.size
+        })
