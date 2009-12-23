@@ -1,10 +1,9 @@
 from django.test import TestCase
-
+from pristav.ads.models import Impression
 
 class ServeTests(TestCase):
     fixtures = ['mydata.json']
-    
-     
+
     def _test_serve_default_publisher(self, puburl):
         """
         Test for default publisher.
@@ -49,3 +48,12 @@ class ServeTests(TestCase):
         for res in invalid_url:
             response = self.client.get(res)
             self.assertEqual(response.status_code, 404)
+
+    def test_serve_correct_referer_netloc(self):
+        response = self.client.get('/serve/pristav/125x125',
+                                   HTTP_REFERER='http://pristav.ceata.org/xmpl')
+        impre = Impression.objects.all()[0]
+        self.assertEqual(impre.referer, 'http://pristav.ceata.org/xmpl')
+        self.assertEqual(impre.referer_netloc, 'http://pristav.ceata.org')
+        # clean up
+        Impression.objects.all()[0].delete()

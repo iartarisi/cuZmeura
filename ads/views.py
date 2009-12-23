@@ -35,6 +35,8 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
 
     if request.META.has_key("HTTP_REFERER"):
         referer = request.META["HTTP_REFERER"]
+        # get schema and netloc from the referer url
+        referer_loc = '%s://%s' % urlparse(referer)[:2]
     else:
         referer = None
         
@@ -46,10 +48,9 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
     impression = Impression.objects.create(
         ip=request.META["REMOTE_ADDR"],
         referer = referer,
-        referer_netloc = urlparse(referer).netloc if referer else None,
+        referer_netloc = referer_loc if referer else None,
         publisher = publisher.url,
-        ad = ad
-        )
+        ad = ad)
     impression.save()
 
     return render_to_response('serve.html', {
