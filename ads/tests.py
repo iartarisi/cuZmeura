@@ -54,6 +54,6 @@ class ServeTests(TestCase):
                                    HTTP_REFERER='http://pristav.ceata.org/xmpl')
         impre = Impression.objects.all()[0]
         self.assertEqual(impre.referer, 'http://pristav.ceata.org/xmpl')
-        self.assertEqual(impre.referer_netloc, 'http://pristav.ceata.org')
+        self.assertEqual(impre.referer_netloc, 'http://pristav.ceata.org/')
         # clean up
         Impression.objects.all()[0].delete()

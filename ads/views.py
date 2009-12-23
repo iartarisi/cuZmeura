@@ -36,7 +36,7 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
     if request.META.has_key("HTTP_REFERER"):
         referer = request.META["HTTP_REFERER"]
         # get schema and netloc from the referer url
-        referer_loc = '%s://%s' % urlparse(referer)[:2]
+        referer_loc = '%s://%s/' % urlparse(referer)[:2]
     else:
         referer = None
         
