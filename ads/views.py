@@ -26,12 +26,15 @@ PRISTAVSLUG = 'pristav'
 DEFAULT_SIZE= '125x125'
 
 def serve(request, slugpub=None, size=DEFAULT_SIZE):
+    '''Serve an ad with the given slugpub and size
+
+    see the get_ad docstring for how
+
+    '''
     if size == None:
         size = DEFAULT_SIZE
 
-    # pulling all matching records isn't optimal, but it's ok at this stage
-    matching_ads = get_list_or_404(Ad, size__size__exact=size)
-    ad = random.choice(matching_ads)
+    ad = get_ad(size)
 
     if request.META.has_key("HTTP_REFERER"):
         referer = request.META["HTTP_REFERER"]
@@ -59,3 +62,12 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
         'ad_img_url' : ad.image.url,
         'ad_size' : ad.size.size
         })
+
+def get_ad(size):
+    '''Get the ad from the database going sequentially through all the ads.
+
+    Return a 404 if nothing is found
+    '''
+    ads = get_list_or_404(Ad, size__size__exact=size)
+
+    return ads[Impression.objects.count() % len(ads)]

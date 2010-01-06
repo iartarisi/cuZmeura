@@ -1,5 +1,5 @@
 from django.test import TestCase
-from pristav.ads.models import Impression
+from pristav.ads.models import Impression, Ad
 
 class ServeTests(TestCase):
     fixtures = ['mydata.json']
@@ -57,3 +57,10 @@ class ServeTests(TestCase):
         self.assertEqual(impre.referer_netloc, 'http://pristav.ceata.org/')
         # clean up
         Impression.objects.all()[0].delete()
+
+    def test_ads_sequentiality(self):
+        for j in range(3): # go three times through every ad in the db
+            for i in range(3):
+                response = self.client.get('/serve/pristav/125x125')
+                self.assertEqual(response.context['ad_name'],
+                                 Ad.objects.all()[i].name)
