@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
-from ads.views import serve
+from ads.serve import serve
 from ads.user import profile
 
 # Uncomment the next two lines to enable the admin:
