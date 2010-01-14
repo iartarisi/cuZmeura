@@ -79,7 +79,7 @@ INSTALLED_APPS = (
     # 'django.contrib.sites',
     'pristav.ads',
     'django.contrib.admin',
-    
+    'south',
 )
 
 LOGIN_REDIRECT_URL = '/user/profile/'
