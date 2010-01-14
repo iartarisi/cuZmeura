@@ -16,7 +16,7 @@
 # along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.test import TestCase
-from pristav.ads.models import Impression, Ad
+from pristav.ads.models import Impression, Ad, Product
 
 class ServeTests(TestCase):
     fixtures = ['mydata.json']
@@ -26,31 +26,31 @@ class ServeTests(TestCase):
         Test for default publisher.
         """
         response = self.client.get('/serve/' + puburl)
+
+        ads = [a.name for a in Product.objects.all()[0].ad_set.all()]
+        
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['ad_url'], u'http://ceata.org/')
-        self.assertEqual(response.context['ad_name'], u'Ceata')
-        self.assertEqual(response.context['ad_img_url'],
-                         u'http://localhost:8000/media/ads/ceata_.png')
+        self.assert_(response.context['ad_name'] in ads)
 
     def test_serve_default_publisher(self):
         self._test_serve_default_publisher('')
         
     def test_serve_pristav_publisher(self):
-        self._test_serve_default_publisher('pristav')
+        self._test_serve_default_publisher('default')
 
     def test_serve_notexists_publisher(self):
         response = self.client.get('/serve/notfound')
         self.assertEqual(response.status_code, 404)
 
     def test_serve_size_match_regex(self):
-        response = self.client.get('/serve/pristav/')
+        response = self.client.get('/serve/default/')
         self.assertEqual(response.context['ad_size'], '125x125')
         
-        response = self.client.get('/serve/pristav/125x125')
+        response = self.client.get('/serve/default/125x125')
         self.assertEqual(response.context['ad_size'], '125x125')
 
     def test_serve_size_not_found(self):
-        response = self.client.get('/serve/pristav/0x0')
+        response = self.client.get('/serve/default/0x0')
         self.assertEqual(response.status_code, 404)
 
     def test_serve_size_mismatch_regex(self):
@@ -67,7 +67,7 @@ class ServeTests(TestCase):
             self.assertEqual(response.status_code, 404)
 
     def test_serve_correct_referer_netloc(self):
-        response = self.client.get('/serve/pristav/125x125',
+        response = self.client.get('/serve/default/125x125',
                                    HTTP_REFERER='http://pristav.ceata.org/xmpl')
         impre = Impression.objects.all()[0]
         self.assertEqual(impre.referer, 'http://pristav.ceata.org/xmpl')
@@ -76,8 +76,14 @@ class ServeTests(TestCase):
         Impression.objects.all()[0].delete()
 
     def test_ads_sequentiality(self):
-        for j in range(3): # go three times through every ad in the db
-            for i in range(3):
-                response = self.client.get('/serve/pristav/125x125')
-                self.assertEqual(response.context['ad_name'],
-                                 Ad.objects.all()[i].name)
+        '''4 requests should go through the products like this: 1, 2, 1, 2 and
+        '''
+
+        ads1 = Product.objects.all()[0].ad_set.all()
+        ads2 = Product.objects.all()[1].ad_set.all()
+
+        ads = [[a.name for a in ads] for ads in [ads1, ads2]]
+
+        for req in [0,1,0,1]:
+            response = self.client.get('/serve/default/125x125')
+            self.assert_(response.context['ad_name'] in ads[req])

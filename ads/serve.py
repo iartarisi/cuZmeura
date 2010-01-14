@@ -19,17 +19,17 @@ import random
 from urlparse import urlparse
 
 from django.shortcuts import (render_to_response,
-                              get_object_or_404, get_list_or_404)
-from pristav.ads.models import Ad, Impression, Publisher
+                              get_object_or_404)
+from django.http import Http404
+from pristav.ads.models import Ad, Impression, Product, Publisher
 
-PRISTAVSLUG = 'pristav'
+DEFAULTSLUG = 'default'
 DEFAULT_SIZE= '125x125'
 
 def serve(request, slugpub=None, size=DEFAULT_SIZE):
     '''Serve an ad with the given slugpub and size
-
+ 
     see the get_ad docstring for how
-
     '''
     if size == None:
         size = DEFAULT_SIZE
@@ -42,11 +42,8 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
         referer_loc = '%s://%s/' % urlparse(referer)[:2]
     else:
         referer = None
-        
-    if slugpub:
-        publisher = get_object_or_404(Publisher, slug=slugpub)
-    else:
-        publisher = Publisher.objects.get(slug=PRISTAVSLUG)
+
+    publisher = get_object_or_404(Publisher, slug=(slugpub or DEFAULTSLUG))
         
     impression = Impression.objects.create(
         ip=request.META["REMOTE_ADDR"],
@@ -64,10 +61,20 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
         })
 
 def get_ad(size):
-    '''Get the ad from the database going sequentially through all the ads.
+    '''Get the ad from the database.
+
+    Go through each Product and get the first Ad of that Product. If the
+    Product has more than one Ad, get the next one, next time we get to that
+    Ad.
 
     Return a 404 if nothing is found
     '''
-    ads = get_list_or_404(Ad, size__size__exact=size)
 
-    return ads[Impression.objects.count() % len(ads)]
+    products = Product.objects.filter(ad__size__size__exact=size).distinct()
+    if not products:
+        raise Http404
+    
+    product = products[Impression.objects.count() % len(products)]
+
+    # FIXME: maybe we can make this sequential rather than random
+    return random.choice(product.ad_set.all())
