@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # This file is part of Pristav.
-# Copyright (c) 2009 Ionuț Arțăriși
+# Copyright (c) 2009-2010 Ionuț Arțăriși
 
 # Chematoru' is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Affero General Public License as published by the Free
