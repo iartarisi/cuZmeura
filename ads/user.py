@@ -21,7 +21,20 @@ from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from pristav.ads.models import Impression, Publisher, User
+from ads.forms import UserRegistrationForm
+from ads.models import Impression, Publisher, User
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return redirect("/user/profile/")
+    else:
+        form = UserRegistrationForm()
+    return render_to_response("register.html", {
+        'form': form,
+    })
 
 @login_required
 def profile(request):

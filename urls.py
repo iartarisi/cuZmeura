@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
 from ads.serve import serve
-from ads.user import profile
+from ads.user import profile, register
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -22,7 +22,9 @@ urlpatterns = patterns('',
                        
     (r'^serve/(\w+)?/?(\d+x\d+)?$', serve),
 
-    (r'^user/profile/$', profile),                       
+    (r'^user/profile/$', profile),
+
+    (r'^user/register/$', register),
                        
     # (r'^media/(?P<path>.*)$', 'django.views.static.serve',
     #    {'document_root': '/home/mapleoin/pristav/media'}),
