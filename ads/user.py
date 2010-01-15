@@ -24,6 +24,9 @@ from django.contrib.auth.models import User
 from ads.forms import UserRegistrationForm
 from ads.models import Impression, Publisher, User
 
+# FIXME: use contrib.sites perhaps?
+# also check out the hardcoding in urls.py
+PRISTAVURL = 'http://pristav.ceata.org/'
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -38,17 +41,18 @@ def register(request):
 
 @login_required
 def profile(request):
-
     cur_user = User.objects.get(username=request.user.username)
     publishers = Publisher.objects.filter(owner=cur_user)
 
-    # build a dictionary of publisher: impressions
+    # list of [publisher_url, impression, real_impression]
     pub_imp = []
     for pub in publishers:
         imp = Impression.objects.filter(publisher=pub.url).count()
         real_imp = Impression.objects.filter(referer_netloc=pub.url).count()
-        pub_imp.append([pub.name, imp, real_imp])
+        pub_imp.append([pub.name, pub.slug, imp, real_imp])
     
     return render_to_response("profile.html", {
-        'pub_imp':pub_imp},
+        'pub_imp':pub_imp,
+        'domain': PRISTAVURL,
+        },
         context_instance=RequestContext(request))

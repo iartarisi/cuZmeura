@@ -11,31 +11,20 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^$', direct_to_template, {'template' : 'index.html',
                                  'extra_context': {
-                                     'domain':'http://pristav.ceata.org/'}
+                                     'domain':'http://pristav.ceata.org/',
+                                     'pubslug': 'pristav'}
                                  }),
 
     (r'^login/$', 'django.contrib.auth.views.login',
      {'template_name': 'login.html'}),
-
     (r'^logout/$', 'django.contrib.auth.views.logout',
      {'next_page' : '/'}),
                        
     (r'^serve/(\w+)?/?(\d+x\d+)?$', serve),
 
     (r'^user/profile/$', profile),
-
     (r'^user/register/$', register),
                        
-    # (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-    #    {'document_root': '/home/mapleoin/pristav/media'}),
-
-    # Example:
-    # (r'^flossad/', include('flossad.foo.urls')),
-
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-     (r'^admin/', include(admin.site.urls)),
+    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/', include(admin.site.urls)),
 )

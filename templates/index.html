@@ -3,28 +3,21 @@
 {% block content %}
       <h1>Pristav</h1>
       <h2> - află și contribuie - </h2>
-      <h3>Versiune <em>foarte</em> alfa.</h3>
+      <h3>Versiune alfa.</h3>
       <p>Tot ce trebuie să faci pentru a putea afișa reclame ale comunităților
       românești de arte sau tehnologii libere e să copiezi codul de mai jos pe
       situl tău:</p>
-      <textarea rows="8" cols="70" onclick="this.select()">
-        <script type="text/javascript" src="{{ domain }}serve/pristav">
-          //<![CDATA[
-  (function(id) {
-       document.write('<script type="text/javascript" src="' +
-       '{{ domain }}serve/' + id + '"></' + 'script>');
-       })("pristav");
-  //]]>
-        </script>
-      </textarea>
+
+      {% include "snippet.html" %}
+      
       <br /><br />
       <p>Va arăta așa (încearcă să dai refresh):</p>
-      <script type="text/javascript" src="{{ domain }}serve/pristav">
+      <script type="text/javascript" src="{{ domain }}serve/{{ publisher }}">
         //<![CDATA[
   (function(id) {
        document.write('<script type="text/javascript" src="' +
        '{{ domain }}serve/' + id + '"></' + 'script>');
-       })("pristav");
+       })({{ publisher }});
  //]]>
       </script>
 {% endblock %}

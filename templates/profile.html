@@ -3,9 +3,12 @@
 {% block content %}
 <h3>Bine ai revenit, {{ user.username }}</h3>
 
-{% for pub, imp, real in pub_imp %}
-  <p>Pe situl <em>{{ pub }}</em> s-au încarcat până acum <em>{{ imp }}</em>
+{% for pub, pubslug, imp, real in pub_imp %}
+  <p>Pe situl <em>{{ pub }}</em> s-au încarcat până acum <em>{{imp}}</em>
     reclame, din care {{ real }} reale.</p>
+
+  <p>Acesta este snippetul pe care îl puteti folosi:</p>
+  {% include "snippet.html" %}
 {% endfor %}
 
 <p>Reclame reale înseamnă că domeniul REFERER-ului coincide cu domeniul
