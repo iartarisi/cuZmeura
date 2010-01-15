@@ -77,4 +77,4 @@ def get_ad(size):
     product = products[Impression.objects.count() % len(products)]
 
     # FIXME: maybe we can make this sequential rather than random
-    return random.choice(product.ad_set.all())
+    return random.choice(product.ad_set.filter(accepted=True).all())

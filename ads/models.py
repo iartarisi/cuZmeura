@@ -42,6 +42,7 @@ class Ad(models.Model):
     size = models.ForeignKey(AdSize)
     image = models.ImageField(upload_to='ads/')
     product = models.ForeignKey(Product)
+    accepted = models.BooleanField()
     def __unicode__(self):
         return u'#%s %s' % (self.id, self.name)
 

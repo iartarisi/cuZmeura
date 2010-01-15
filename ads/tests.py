@@ -76,7 +76,7 @@ class ServeTests(TestCase):
         Impression.objects.all()[0].delete()
 
     def test_ads_sequentiality(self):
-        '''4 requests should go through the products like this: 1, 2, 1, 2 and
+        '''Serve ads from each product sequentially
         '''
 
         ads1 = Product.objects.all()[0].ad_set.all()
@@ -87,3 +87,10 @@ class ServeTests(TestCase):
         for req in [0,1,0,1]:
             response = self.client.get('/serve/default/125x125')
             self.assert_(response.context['ad_name'] in ads[req])
+    def test_no_unaccepted_ads(self):
+        '''Unaccepted ads never get shown
+        '''
+        bogus = Ad.objects.filter(accepted=False).all()[0]
+        for req in range(10):
+            response = self.client.get('/serve/default/')
+            self.assertNotEquals(bogus.name, response.context['ad_name'])
