@@ -25,6 +25,7 @@ from pristav.ads.models import Ad, Impression, Product, Publisher
 
 DEFAULTSLUG = 'default'
 DEFAULT_SIZE= '125x125'
+NOIP = '10.0.0.1'
 
 def serve(request, slugpub=None, size=DEFAULT_SIZE):
     '''Serve an ad with the given slugpub and size
@@ -36,17 +37,17 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
 
     ad = get_ad(size)
 
-    if request.META.has_key("HTTP_REFERER"):
+    try:
         referer = request.META["HTTP_REFERER"]
         # get schema and netloc from the referer url
         referer_loc = '%s://%s/' % urlparse(referer)[:2]
-    else:
+    except KeyError:
         referer = None
 
     publisher = get_object_or_404(Publisher, slug=(slugpub or DEFAULTSLUG))
-        
+
     impression = Impression.objects.create(
-        ip=request.META["REMOTE_ADDR"],
+        ip=request.META.get("REMOTE_ADDR", NOIP),
         referer = referer,
         referer_netloc = referer_loc if referer else None,
         publisher = publisher.url,
