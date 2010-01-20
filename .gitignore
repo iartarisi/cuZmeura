@@ -1,6 +1,6 @@
 settings.py
 media/admin
 media/ads/
-data.db
+pristav.db
 *.pyc
 *~
