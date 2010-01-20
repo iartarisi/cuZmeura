@@ -18,10 +18,9 @@
 import random
 from urlparse import urlparse
 
-from django.shortcuts import (render_to_response,
-                              get_object_or_404)
+from django.shortcuts import (render_to_response, get_object_or_404)
 from django.http import Http404
-from pristav.ads.models import Ad, Impression, Product, Publisher
+from pristav.ads.models import Impression, Product, Publisher
 
 DEFAULTSLUG = 'default'
 DEFAULT_SIZE= '125x125'
@@ -39,10 +38,12 @@ def serve(request, slugpub=None, size=DEFAULT_SIZE):
 
     try:
         referer = request.META["HTTP_REFERER"]
-        # get schema and netloc from the referer url
-        referer_loc = '%s://%s/' % urlparse(referer)[:2]
     except KeyError:
         referer = None
+    else:
+        # get schema and netloc from the referer url
+        referer_loc = '%s://%s/' % urlparse(referer)[:2]
+
 
     publisher = get_object_or_404(Publisher, slug=(slugpub or DEFAULTSLUG))
 

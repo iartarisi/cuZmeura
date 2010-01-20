@@ -3,16 +3,24 @@
 {% block title %}Creează-ți un cont{% endblock %}
 
 {% block content %}
-  <h1>Creează un cont</h1>
 
-  {% if form.errors %}
-  <p style="color: red">
-    Te rugăm să corectezi erorile de mai jos
-  </p>
+  {% if form %}
+    <h2>Creează un cont</h2>
+
+    {% if form.errors %}
+    <p style="color: pink">
+      Te rugăm să corectezi erorile de mai jos.
+    </p>
+    {% endif %}
+
+    <form action="" method="post">
+        {{ form.as_p }}
+        <input type="submit" value="Create the account">
+    </form>
   {% endif %}
 
-  <form action="" method="post">
-      {{ form.as_p }}
-      <input type="submit" value="Create the account">
-  </form>
+  {% if thanks %}
+    <p>Îți mulțumim pentru înregistrare. Ți-am trimis un mail cu instrucțiuni
+      pentru activarea contului la adresa specificată. </p>
+  {% endif %}
 {% endblock %}

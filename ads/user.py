@@ -17,16 +17,14 @@
 
 import datetime, hashlib, random
 
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ads.forms import UserRegistrationForm
-from ads.models import Impression, Publisher, User, UserActivation
+from pristav.ads.forms import UserRegistrationForm
+from pristav.ads.models import Impression, Publisher, User, UserActivation
 
 # FIXME: use contrib.sites perhaps?
 # also check out the hardcoding in urls.py
@@ -50,17 +48,17 @@ def register(request):
             # FIXME: move this to a template?
             # Send email with the activation information
             email_subject = _("Your Pristav account activation")
-            email_body = _("Hello %s, \n"
+            email_body = _("Hello %s, \n\n"
                            "Thanks for signing up for the Pristav advertising "
-                           "network.\n"
+                           "network.\n\n"
                            "You can activate your account by following this "
-                           "link in the next 2 days: %s" % (
+                           "link in the next 2 days:\n %s" % (
                                new_user.username,
-                               PRISTAVURL+'confirm/'+activation_key))
+                               PRISTAVURL+'user/confirm/'+activation_key))
             send_mail(email_subject, email_body, PRISTAVEMAIL,
                       [new_user.email])
 
-            return redirect("/user/profile/")
+            return render_to_response("register.html", {"thanks": True})
     else:
         form = UserRegistrationForm()
     return render_to_response("register.html", {

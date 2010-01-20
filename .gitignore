@@ -1,4 +1,5 @@
 settings.py
+test-settings.py
 media/admin
 media/ads/
 pristav.db
