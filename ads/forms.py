@@ -31,6 +31,7 @@ class UserRegistrationForm(forms.Form):
         if User.objects.filter(username=username):
             raise forms.ValidationError("Numele de utilizator exista deja "
                                         "in baza de date.")
+        return username
         
     def clean_password2(self):
         password = self.cleaned_data['password']
@@ -42,9 +43,9 @@ class UserRegistrationForm(forms.Form):
         
     def save(self):
         new_user = User.objects.create_user(
-            username=self.cleaned_data['username'],
-            email=self.cleaned_data['email'],
-            password=self.cleaned_data['password2'])
+            self.cleaned_data['username'],
+            self.cleaned_data['email'],
+            self.cleaned_data['password2'])
         new_user.first_name = self.cleaned_data['first_name']
         new_user.last_name = self.cleaned_data['last_name']
         new_user.is_active = True
