@@ -15,30 +15,70 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime, hashlib, random
+
 from django import forms
-from django.template import RequestContext
-from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.template import RequestContext
+from django.utils.translation import ugettext as _
 
 from ads.forms import UserRegistrationForm
-from ads.models import Impression, Publisher, User
+from ads.models import Impression, Publisher, User, UserActivation
 
 # FIXME: use contrib.sites perhaps?
 # also check out the hardcoding in urls.py
 PRISTAVURL = 'http://pristav.ceata.org/'
+PRISTAVEMAIL = 'pristav@ceata.org'
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+
+            # Build the activation key
+            salt = hashlib.md5(str(random.random())).hexdigest()[-5:]
+            activation_key = hashlib.md5(salt+new_user.username).hexdigest()
+            key_expires = datetime.datetime.today() + datetime.timedelta(2)
+            new_activ = UserActivation(user=new_user,
+                                       activation_key=activation_key,
+                                       key_expires=key_expires)
+            new_activ.save()
+
+            # FIXME: move this to a template?
+            # Send email with the activation information
+            email_subject = _("Your Pristav account activation")
+            email_body = _("Hello %s, \n"
+                           "Thanks for signing up for the Pristav advertising "
+                           "network.\n"
+                           "You can activate your account by following this "
+                           "link in the next 2 days: %s" % (
+                               new_user.username,
+                               PRISTAVURL+'confirm/'+activation_key))
+            send_mail(email_subject, email_body, PRISTAVEMAIL,
+                      [new_user.email])
+
             return redirect("/user/profile/")
     else:
         form = UserRegistrationForm()
     return render_to_response("register.html", {
-        'form': form,
-    })
+        'form': form})
 
+def confirm(request, activation_key):
+    if request.user.is_authenticated():
+        return redirect("/user/profile/")
+    user_activ = get_object_or_404(UserActivation,
+                                   activation_key=activation_key)
+    if user_activ.key_expires < datetime.datetime.today():
+        return render_to_response("confirm.html", {"expired":True})
+
+    user = user_activ.user
+    user.is_active = True
+    user.save()
+    return render_to_response("confirm.html", {'success':True})
+    
 @login_required
 def profile(request):
     cur_user = User.objects.get(username=request.user.username)

@@ -16,11 +16,11 @@
 # along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.utils.translation import ugettext as _
+
 from ads.models import User
 
 class UserRegistrationForm(forms.Form):
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
     username = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput(render_value=False))
@@ -29,26 +29,24 @@ class UserRegistrationForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username):
-            raise forms.ValidationError("Numele de utilizator exista deja "
-                                        "in baza de date.")
+            raise forms.ValidationError(_("An account with this username has "
+                                        "already been created."))
         return username
         
     def clean_password2(self):
-        password = self.cleaned_data['password']
+        password = self.cleaned_data['password'] or ''
         password2 = self.cleaned_data['password2']
         if password != password2:
-            raise forms.ValidationError("Cele doua campuri pentru parola "
-                                        "trebuie sa fie identice")
-        return password
+            raise forms.ValidationError(_("The two password fields must be the "
+                                        "same."))
+        return password2
         
     def save(self):
         new_user = User.objects.create_user(
             self.cleaned_data['username'],
             self.cleaned_data['email'],
             self.cleaned_data['password2'])
-        new_user.first_name = self.cleaned_data['first_name']
-        new_user.last_name = self.cleaned_data['last_name']
-        new_user.is_active = True
+        new_user.is_active = False
         new_user.save()
         return new_user
         

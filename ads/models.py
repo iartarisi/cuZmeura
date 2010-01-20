@@ -42,7 +42,7 @@ class Ad(models.Model):
     size = models.ForeignKey(AdSize)
     image = models.ImageField(upload_to='ads/')
     product = models.ForeignKey(Product)
-    accepted = models.BooleanField()
+    accepted = models.BooleanField(default=False)
     def __unicode__(self):
         return u'#%s %s' % (self.id, self.name)
 
@@ -66,3 +66,7 @@ class Publisher(models.Model):
         return u'#%s %s | Owner: %s' % (self.id, self.name,
                                         self.owner.username)
 
+class UserActivation(models.Model):
+    user = models.OneToOneField(User)
+    activation_key = models.CharField(max_length=40)
+    key_expires = models.DateTimeField()

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if success %}
+    <p>Validarea a fost făcută cu succes. Bine ai venit!</p>
+
+    <p>Acum te poți <a href="/login/">autentifica</a> folosind noul cont.</p>
+  {% endif %}
+
+  {% if expired %}
+    <p>Cheia de activare a expirat. Te rugăm încearcă să te
+      <a href="/user/register/">înregistrezi</a> din nou.</p>
+  {% endif %}
+{% endblock %}
