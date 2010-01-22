@@ -87,10 +87,14 @@ def confirm(request, activation_key):
     
 @login_required
 def profile(request):
+    '''User profile.
+
+    Returns a list of the total impressions on all the user's Publishers.
+    '''
     cur_user = User.objects.get(username=request.user.username)
     publishers = Publisher.objects.filter(owner=cur_user)
 
-    # list of [publisher_url, impression, real_impression]
+    # [publisher name, publisher slug, total impressions, real impressions]
     pub_imp = []
     for pub in publishers:
         imp = Impression.objects.filter(publisher=pub.url).count()

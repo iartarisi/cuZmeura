@@ -20,9 +20,10 @@ import datetime
 from django.core import mail
 from django.test import TestCase
 
-from ads.models import User, UserActivation
+from ads.models import Publisher, User, UserActivation
 from ads.forms import UserRegistrationForm
 
+PRISTAVURL = 'http://pristav.ceata.org/'
 class RegistrationTests(TestCase):
     good_data = {
         'username':'gigi',
@@ -164,3 +165,83 @@ class RegistrationTests(TestCase):
         
         response = self.client.get('/user/confirm/%s' % ua.activation_key)
         self.assertRedirects(response, '/user/profile/')
+
+class LoginTests(TestCase):
+    # FIXME: the data in the fixtures is rather too tight-coupled
+    # with the class attributes
+    fixtures = ['one_good_user.json']
+    user_name = 'gigel'
+    user_pass = 'gigipass'
+    
+    def test_successful_login(self):
+        '''Test successful login and viewing restricted page
+        '''
+        login = self.client.login(username=self.user_name,
+                                  password=self.user_pass)
+        self.assertTrue(login)
+
+        response = self.client.get('/user/profile/')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_login_fails_with_bad_credentials(self):
+        login = self.client.login(username='badman', password='badpassword')
+        self.failIf(login)
+
+    def test_login_form_success(self):
+        '''Login using the form and get redirected to the user profile page
+        '''
+        post_data = {'username':self.user_name,
+                     'password':self.user_pass
+                     }
+        response = self.client.post('/login/', post_data)
+        self.assertRedirects(response, '/user/profile/')
+        self.failIf('Parola sau numele de utilizator' in response.content)
+
+    def test_user_profile(self):
+        login = self.client.login(username=self.user_name,
+                                  password=self.user_pass)
+        response = self.client.get('/user/profile/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profile.html')
+        self.assertTemplateUsed(response, 'base.html')
+        self.failUnless(self.user_name in response.content)
+        
+    def test_failed_login_using_form(self):
+        post_data = {'username':'intruder', 'password':'3l33T'}
+        response = self.client.post('/login/', post_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+        self.failUnless('Parola sau numele de utilizator' in response.content)
+
+class ProfileTests(TestCase):
+    '''Test profile page content(context)
+    '''
+    fixtures = ['mydata.json']
+    username = 'gigel'
+    password = 'gigipass'
+
+    def test_profile(self):
+        u = User.objects.all()[0]
+        pub1, pub2 = u.publisher_set.all()[:2]
+
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+
+        # generate some requests and then create a mockup list
+        self.client.get('/serve/%s/' % pub1.slug)
+        self.client.get('/serve/%s/' % pub1.slug,
+                        HTTP_REFERER='http://example.com')
+        self.client.get('/serve/%s/' % pub1.slug,
+                        HTTP_REFERER=pub1.url)
+        self.client.get('/serve/%s/' % pub2.slug)
+        pub_imp = [[pub1.name, pub1.slug, 3, 1],
+                   [pub2.name, pub2.slug, 1, 0]]
+
+        self.response = self.client.get('/user/profile/')
+        
+        self.assertEqual(len(self.response.context['pub_imp']),
+                         Publisher.objects.filter(
+                             owner__username=self.username).count())
+        self.assertEqual(self.response.context['domain'], PRISTAVURL)
+
+        self.assertEqual(self.response.context['pub_imp'], pub_imp)

@@ -27,6 +27,7 @@ class ServeTests(TestCase):
         """
         response = self.client.get('/serve/' + puburl)
 
+        # get the ads belonging to the first Product
         ads = [a.name for a in Product.objects.all()[0].ad_set.all()]
         
         self.assertEqual(response.status_code, 200)
