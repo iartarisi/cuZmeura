@@ -32,8 +32,6 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     # Uncomment these lines when in 'development mode'
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-     {'document_root': '/home/mapleoin/pristav/media'}),
-
-
+    # (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+    #  {'document_root': '/home/mapleoin/pristav/media'}),
 )
