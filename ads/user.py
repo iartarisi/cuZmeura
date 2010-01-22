@@ -65,17 +65,25 @@ def register(request):
         'form': form})
 
 def confirm(request, activation_key):
+    '''Handles confirmation of user accounts with email received activation key
+    '''
     if request.user.is_authenticated():
         return redirect("/user/profile/")
-    user_activ = get_object_or_404(UserActivation,
+    
+    activation = get_object_or_404(UserActivation,
                                    activation_key=activation_key)
-    if user_activ.key_expires < datetime.datetime.today():
+
+    if activation.key_expires < datetime.datetime.today():
         return render_to_response("confirm.html", {"expired":True})
 
-    user = user_activ.user
-    user.is_active = True
-    user.save()
-    return render_to_response("confirm.html", {'success':True})
+    user = activation.user
+
+    if user.is_active:
+        return render_to_response("confirm.html", {"already_active":True})
+    else:
+        user.is_active = True
+        user.save()
+        return render_to_response("confirm.html", {"success":True})
     
 @login_required
 def profile(request):
