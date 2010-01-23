@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 from django.test import TestCase
 from pristav.ads.models import Impression, Ad, Product
 
@@ -95,3 +96,11 @@ class ServeTests(TestCase):
         for req in range(10):
             response = self.client.get('/serve/default/')
             self.assertNotEquals(bogus.name, response.context['ad_name'])
+    def test_all_ads_in_fixtures_exist(self):
+        '''Test that all the ads in the fixtures exist in the filesystem
+
+        ads in the fixtures should also be present in /media/ads
+        '''
+        paths = [ad.image.path for ad in Ad.objects.all()]
+        for path in paths:
+            self.failUnless(os.path.exists(path))
