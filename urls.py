@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     (r'^$', direct_to_template, {'template' : 'index.html',
                                  'extra_context': {
                                      'domain':'http://pristav.ceata.org/',
-                                     'pubslug': 'pristav'}
+                                     }
                                  }),
 
     (r'^login/$', 'django.contrib.auth.views.login',
