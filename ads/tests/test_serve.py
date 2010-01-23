@@ -19,7 +19,7 @@ from django.test import TestCase
 from pristav.ads.models import Impression, Ad, Product
 
 class ServeTests(TestCase):
-    fixtures = ['mydata.json']
+    fixtures = ['ads.json']
 
     def _test_get_publisher(self, puburl):
         """

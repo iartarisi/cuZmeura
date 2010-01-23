@@ -216,7 +216,7 @@ class LoginTests(TestCase):
 class ProfileTests(TestCase):
     '''Test profile page content(context)
     '''
-    fixtures = ['mydata.json']
+    fixtures = ['ads.json', 'one_good_user']
     username = 'gigel'
     password = 'gigipass'
 
