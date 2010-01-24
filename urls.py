@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
@@ -11,7 +12,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^$', direct_to_template, {'template' : 'index.html',
                                  'extra_context': {
-                                     'domain':'http://pristav.ceata.org/',
+                                     'domain':'http://localhost:8000/',
                                      }
                                  }),
 
@@ -30,8 +31,11 @@ urlpatterns = patterns('',
     # Django contrib.admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
-
-    # Uncomment these lines when in 'development mode'
-    # (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-    #  {'document_root': '/home/mapleoin/pristav/media'}),
 )
+
+if settings.DEBUG:
+    # serve static pages in development mode
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+         {'document_root': '/home/mapleoin/pristav/media'}),
+    )
