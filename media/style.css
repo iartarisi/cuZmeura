@@ -1,17 +1,20 @@
 body {
-    background: url('stripes.png') top left repeat-y #6CBD87;
+    background: #246673 top left repeat;
     font-family: sans-serif;
-    margin-left: 280px;
-    padding-left: 2em;
+    margin: 0;
+    padding-left: .5em;
+    padding-right: .5em;
+    border-left: 10.5em solid #132730;
+    border-right: 10.5em solid #132730;
 }
 
 a {
-    color: white;
+    color: #246673;
 }
 
 h1 {
-    font-size: 5em;
-    padding: 0;
+    font-size: 2em;
+    padding: .6em 0 ;
     margin: 0;
 }
 
@@ -21,9 +24,24 @@ h2 {
 }
 
 #container {
-    color: white;
-    padding: 2em 4em 10em 0;
-    min-height: 90%;
+    margin: 0;
+    background-color: #f5ffe5;    
+    padding: 0 3em 10em 3em;
+    min-height: 800px;
+    border-left: solid .5em #BCC4A6;
+    border-right: solid .5em #BCC4A6;
+    border-bottom: solid 2.5em #383434;
+}
+#content {
+    padding: 4em 0;
+    margin: 0;
+    color: #132730;
+    clear: both;
+}
+#antet {
+    margin-right: -10;
+    font-family: serif;
+    padding: 0;
 }
 
 img {
@@ -31,13 +49,26 @@ img {
 }
 
 #authentication {
+    padding: 2em 2em 0 0;
+    margin: 0;
     float: right;
+    
 }
+#authentication a.buton{
+    text-transform:lowercase;
+    color: #f5ffe5;
+    text-decoration: none;
+    background-color: #246673;
+    padding: 2em 6px 4px;
+    margin: 0;
+}
+#authentication a#special {background-color: #bf2c53;}
 
 #smallprint {
-    margin: 0;
+    text-align: center;
+    margin-top: 20px;
     font-size: .7em;
-
+    color: #bcc4a6;
 }
 
 #pristav {

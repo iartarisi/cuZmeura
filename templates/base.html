@@ -1,31 +1,31 @@
 <html>
   <head>
-    <title>Pristav - rețea de publicitate FLOSS</title>
+    <title>Fără nume - rețea de publicitate FLOSS</title>
     <link rel="stylesheet" type="text/css" href="/media/style.css" />
   </head>
   <body>
-    <div id="authentication" style="color: white">
-      {% if user.is_authenticated %}
-        Sal, <a href="/user/profile/">{{ user.username }}</a> | 
-        <a href="/logout/">Ieșire</a>
-      {% else %}
-        <a href="/user/register/">Înregistrare</a>
-        <a href="/login/">Autentificare</a>
-      {% endif %}
-    </div>
-
+    
     <div id="container">
-      {% block content %}{% endblock %}
+      <div id="antet">
+        <div id="authentication">
+          {% if user.is_authenticated %}
+          Sal, <a href="/user/profile/">{{ user.username }}</a> 
+          <a class="buton" href="/logout/">Ieșire</a>
+          {% else %}
+          <a class="buton" id="special" href="/user/register/">Înregistrare</a>
+          <a class="buton" href="/login/">Autentificare</a>
+          {% endif %}
+        </div>
+        <h1><a href="/" title="Acasă">Fără titlu</a></h1>
+      </div>
+      
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
     </div>
 
     <div id="smallprint">
-      <a href="/" alt="pristav">Pristav</a> este un proiect
-      <a href="http://ceata.org" alt="ceata">Ceata</a>.
-      Sursele Pristavului sunt
-      <a href="http://redmine.ceata.org/projects/pristav" alt="sursele">
-        disponibile</a> sub licență
-      <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html"
-         alt="AGPLv3">AGPLv3</a>.
+      Nenumit © 2010
     </div>
   </body>
 </html>

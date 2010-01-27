@@ -3,6 +3,12 @@
 {% block content %}
 <h3>Bine ai revenit, {{ user.username }}</h3>
 
+{% for product, ads in zip(products, ads) %}
+{% for ad in ads %}
+{{ ad.name }}
+{% endfor %}
+{% endfor %}
+
 {% for pub, pubslug, imp, real in pub_imp %}
   <p>Pe situl <em>{{ pub }}</em> s-au încarcat până acum <em>{{imp}}</em>
     reclame, din care {{ real }} reale.</p>
