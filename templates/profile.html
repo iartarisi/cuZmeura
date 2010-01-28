@@ -1,23 +1,21 @@
-{% extends "base.html" %}
+{% extends "user.html" %}
 
-{% block content %}
-<h3>Bine ai revenit, {{ user.username }}</h3>
+{% block innercontent %}
 
-{% for product, ads in zip(products, ads) %}
-{% for ad in ads %}
-{{ ad.name }}
+{% if products %}
+Produsele tale:
+{% for product in products %}
+  <a href="/user/product/{{ product.name }}/">{{ product.name }}</a>
 {% endfor %}
-{% endfor %}
+<hr />
+{% endif %}
 
 {% for pub, pubslug, imp, real in pub_imp %}
-  <p>Pe situl <em>{{ pub }}</em> s-au încarcat până acum <em>{{imp}}</em>
-    reclame, din care {{ real }} reale.</p>
+  <p>Contul tău <em>{{ pub }}</em> a generat până acum {{ real }}
+    impresii.</p>
 
-  <p>Acesta este snippetul pe care îl puteti folosi:</p>
+  <p>Acesta este snippetul pe care îl poți folosi:</p>
   {% include "snippet.html" %}
 {% endfor %}
-
-<p>Reclame reale înseamnă că domeniul REFERER-ului coincide cu domeniul
-  sitului dvs.</p>
 
 {% endblock %}

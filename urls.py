@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
 from ads.serve import serve
-from ads.user import confirm, profile, register
+from ads.user import confirm, profile, product, register
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
 
     # User actions
     (r'^user/profile/$', profile),
+    (r'^user/product/(\w+)/$', product),
     (r'^user/register/$', register),
     (r'^user/confirm/(\w+)$', confirm),
 

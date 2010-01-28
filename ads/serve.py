@@ -20,10 +20,10 @@ from urlparse import urlparse
 
 from django.shortcuts import (render_to_response, get_object_or_404)
 from django.http import Http404
-from pristav.ads.models import Impression, Product, Publisher
+from ads.models import Impression, Product, Publisher
 
 DEFAULTSLUG = 'default'
-DEFAULT_SIZE= '125x125'
+DEFAULT_SIZE= '120x90'
 NOIP = '10.0.0.1'
 
 def serve(request, slugpub=None, size=DEFAULT_SIZE):

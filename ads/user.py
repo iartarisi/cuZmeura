@@ -23,8 +23,9 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from pristav.ads.forms import UserRegistrationForm
-from pristav.ads.models import Impression, Publisher, User, UserActivation
+from ads.forms import UserRegistrationForm
+from ads.models import (Ad, Impression, Product, Publisher, User,
+                                UserActivation)
 
 # FIXME: use contrib.sites perhaps?
 # also check out the hardcoding in urls.py
@@ -89,12 +90,17 @@ def confirm(request, activation_key):
 def profile(request):
     '''User profile.
 
-    Returns a list of the total impressions on all the user's Publishers.
+    Returns a list of the total impressions on all the user`s Publishers.
+    :pub_imp: a list of publisher details formed like this:
+    [publisher name, publisher slug, total impressions, real impressions]
+    :domain: use this to build nice snippets (should go away at some point)
+    :products: a list of Product objects belonging to the user
     '''
     cur_user = User.objects.get(username=request.user.username)
     publishers = Publisher.objects.filter(owner=cur_user)
 
-    # [publisher name, publisher slug, total impressions, real impressions]
+    products = Product.objects.filter(owner=cur_user)
+
     pub_imp = []
     for pub in publishers:
         imp = Impression.objects.filter(publisher=pub.url).count()
@@ -104,5 +110,18 @@ def profile(request):
     return render_to_response("profile.html", {
         'pub_imp':pub_imp,
         'domain': PRISTAVURL,
+        'products': products,
+        },
+        context_instance=RequestContext(request))
+
+@login_required
+def product(request, product):
+    '''
+    '''
+
+    ads = Ad.objects.filter(product__name=product)
+    return render_to_response("product.html", {
+        'ads':ads,
+        'product':product,
         },
         context_instance=RequestContext(request))
