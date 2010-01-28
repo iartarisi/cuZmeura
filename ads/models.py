@@ -18,12 +18,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Advertiser(models.Model):
-    name = models.CharField(unique=True, max_length=50)
-    url = models.URLField()
-    def __unicode__(self):
-        return self.name
-
 class AdSize(models.Model):
     name = models.CharField(unique=True, max_length=20)
     size = models.CharField(unique=True, max_length=10)
@@ -32,9 +26,10 @@ class AdSize(models.Model):
 
 class Product(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    advertiser = models.ForeignKey(Advertiser)
+    owner = models.ForeignKey(User)
     def __unicode__(self):
-        return u'#%s %s' % (self.id, self.name)
+        return u'#%s %s belongs to: %s' % (
+            self.id, self.name, self.owner.username)
 
 class Ad(models.Model):
     name = models.CharField(unique=True, max_length=50)
