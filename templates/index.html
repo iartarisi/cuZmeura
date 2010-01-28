@@ -5,22 +5,25 @@
       <p>Vrem să promovăm comunitățile
       cu <a href="http://ro.wikipedia.org/wiki/Open_source">surse deschise</a>
       și <a href="http://ro.wikipedia.org/wiki/Free_software">software
-      liber</a> românești.</p>
+      liber</a> românești. Și tu ne poți ajuta, folosind snippetul de mai
+      jos.</p>
       
-      <p>Tot ce trebuie să faci pentru a putea afișa reclame ale comunităților
-      românești de arte sau tehnologii libere e să copiezi codul de mai jos pe
-      situl tău:</p>
+      <p>Nu trebuie decât să copiezi codul ăsta situl tău:</p>
 
       {% include "snippet.html" %}
       
       <br /><br />
       <p>Va arăta așa (încearcă să dai refresh):</p>
       <script type="text/javascript" src="{{ domain }}serve/{{ publisher }}">
-        //<![CDATA[
-  (function(id) {
-       document.write('<script type="text/javascript" src="' +
-       '{{ domain }}serve/' + id + '"></' + 'script>');
-       })({{ publisher }});
- //]]>
+        //<![CDATA[ (function(id) {
+  document.write('<script type="text/javascript" src="' + '{{ domain }}serve/'
+  + id + '"></' + 'script>'); })({{ publisher }}); //]]>
       </script>
+
+      <h3>Vrei mai mult?</h3>
+      <p>Dacă vrei, te poți <a href="/user/register/"
+        title="înregistrare">înregistra</a> pentru a vedea de câte ori s-au
+        încărcat afișele rețelei pe situl tău.  În curând vom introduce mai
+        multe facilități pentru membri. </p>
+      
 {% endblock %}
