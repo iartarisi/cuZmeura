@@ -62,7 +62,10 @@ img {
     padding: 2em 6px 4px;
     margin: 0;
 }
+
 #authentication a#special {background-color: #bf2c53;}
+#authentication a#special.buton:hover {background-color:#132730;}
+#authentication a.buton:hover {background-color:#132730;}
 
 #smallprint {
     text-align: center;
