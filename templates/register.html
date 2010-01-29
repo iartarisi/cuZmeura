@@ -8,7 +8,7 @@
     <h2>Creează un cont</h2>
 
     {% if form.errors %}
-    <p style="color: pink">
+    <p id="flash_error">
       Te rugăm să corectezi erorile de mai jos.
     </p>
     {% endif %}
@@ -20,7 +20,7 @@
   {% endif %}
 
   {% if thanks %}
-    <p>Îți mulțumim pentru înregistrare. Ți-am trimis un mail cu instrucțiuni
+    <p>Îți mulțumim pentru înregistrare. Ți-am trimis un e-mail cu instrucțiuni
       pentru activarea contului la adresa specificată. </p>
   {% endif %}
 {% endblock %}

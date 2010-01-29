@@ -48,11 +48,12 @@ def register(request):
 
             # FIXME: move this to a template?
             # Send email with the activation information
-            email_subject = _("Contul tău cuZmeură")
-            email_body = _("Salut %s, \n\n"
-                           "Îți mulțumim că te-ai înregistrat în rețeaua "
-                           "cuZmeură.\n\n Îți poți activa contul în următoarele"
-                           " două zile, urmând legătură aceasta:\n %s" % (
+            email_subject = _(u"Contul tău cuZmeură")
+            email_body = _(u"Salut %s, \n\n"
+                           u"Îți mulțumim că te-ai înregistrat în rețeaua "
+                           u"cuZmeură.\n\n Îți poți activa contul în "
+                           u"următoarele două zile, urmând legătură aceasta:"
+                           u"\n %s" % (
                                new_user.username,
                                DEFAULTURL+'user/confirm/'+activation_key))
             send_mail(email_subject, email_body, DEFAULTEMAIL,
