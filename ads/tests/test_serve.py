@@ -46,10 +46,10 @@ class ServeTests(TestCase):
 
     def test_size_match_regex(self):
         response = self.client.get('/serve/default/')
-        self.assertEqual(response.context['ad_size'], '125x125')
+        self.assertEqual(response.context['ad_size'], '120x90')
         
-        response = self.client.get('/serve/default/125x125')
-        self.assertEqual(response.context['ad_size'], '125x125')
+        response = self.client.get('/serve/default/120x90')
+        self.assertEqual(response.context['ad_size'], '120x90')
 
     def test_size_not_found(self):
         response = self.client.get('/serve/default/0x0')
@@ -69,7 +69,7 @@ class ServeTests(TestCase):
             self.assertEqual(response.status_code, 404)
 
     def test_correct_referer_netloc(self):
-        response = self.client.get('/serve/default/125x125',
+        response = self.client.get('/serve/default/120x90',
                                    HTTP_REFERER='http://cuzmeura.org/xmpl')
         impre = Impression.objects.all()[0]
         self.assertEqual(impre.referer, 'http://cuzmeura.org/xmpl')
@@ -87,7 +87,7 @@ class ServeTests(TestCase):
         ads = [[a.name for a in ads] for ads in [ads1, ads2]]
 
         for req in [0,1,0,1]:
-            response = self.client.get('/serve/default/125x125')
+            response = self.client.get('/serve/default/120x90')
             self.assert_(response.context['ad_name'] in ads[req])
     def test_no_unaccepted_ads(self):
         '''Unaccepted ads never get shown
