@@ -17,6 +17,13 @@ h1 {
     padding: .6em 0 ;
     margin: 0;
 }
+h1 a {
+    color: #bf2c53;
+    text-decoration: none;
+}
+h1 a:hover {
+    text-decoration: underline;
+}
 
 h2 {
     font-size: 3em;
