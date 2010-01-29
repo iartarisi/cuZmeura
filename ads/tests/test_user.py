@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-# This file is part of Pristav.
+# This file is part of cuZmeură.
 # Copyright (c) 2009-2010 Ionuț Arțăriși
 
-# Chematoru' is free software: you can redistribute it and/or modify it under
+# cuZmeură is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Affero General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option)
 # any later version.
 
-# Pristav is distributed in the hope that it will be useful,
+# cuZmeură is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 
 # You should have received a copy of the GNU Affero General Public License
-# along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
+# along with cuZmeură.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
 
@@ -23,7 +23,7 @@ from django.test import TestCase
 from ads.models import Publisher, User, UserActivation
 from ads.forms import UserRegistrationForm
 
-PRISTAVURL = 'http://pristav.ceata.org/'
+DEFAULTURL = 'http://cuzmeura.org/'
 class RegistrationTests(TestCase):
     good_data = {
         'username':'gigi',
@@ -242,6 +242,6 @@ class ProfileTests(TestCase):
         self.assertEqual(len(self.response.context['pub_imp']),
                          Publisher.objects.filter(
                              owner__username=self.username).count())
-        self.assertEqual(self.response.context['domain'], PRISTAVURL)
+        self.assertEqual(self.response.context['domain'], DEFAULTURL)
 
         self.assertEqual(self.response.context['pub_imp'], pub_imp)

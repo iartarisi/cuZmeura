@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-# This file is part of Pristav.
+# This file is part of cuZmeură.
 # Copyright (c) 2009-2010 Ionuț Arțăriși
 
-# Chematoru' is free software: you can redistribute it and/or modify it under
+# cuZmeură is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Affero General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option)
 # any later version.
 
-# Pristav is distributed in the hope that it will be useful,
+# cuZmeură is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 
 # You should have received a copy of the GNU Affero General Public License
-# along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
+# along with cuZmeură.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime, hashlib, random
 
@@ -29,8 +29,8 @@ from ads.models import (Ad, Impression, Product, Publisher, User,
 
 # FIXME: use contrib.sites perhaps?
 # also check out the hardcoding in urls.py
-PRISTAVURL = 'http://pristav.ceata.org/'
-PRISTAVEMAIL = 'pristav@ceata.org'
+DEFAULTURL = 'http://cuzmeura.org/'
+DEFAULTEMAIL = 'contact@cuzmeura.org'
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -48,15 +48,14 @@ def register(request):
 
             # FIXME: move this to a template?
             # Send email with the activation information
-            email_subject = _("Your Pristav account activation")
-            email_body = _("Hello %s, \n\n"
-                           "Thanks for signing up for the Pristav advertising "
-                           "network.\n\n"
-                           "You can activate your account by following this "
-                           "link in the next 2 days:\n %s" % (
+            email_subject = _("Contul tău cuZmeură")
+            email_body = _("Salut %s, \n\n"
+                           "Îți mulțumim că te-ai înregistrat în rețeaua "
+                           "cuZmeură.\n\n Îți poți activa contul în următoarele"
+                           " două zile, urmând legătură aceasta:\n %s" % (
                                new_user.username,
-                               PRISTAVURL+'user/confirm/'+activation_key))
-            send_mail(email_subject, email_body, PRISTAVEMAIL,
+                               DEFAULTURL+'user/confirm/'+activation_key))
+            send_mail(email_subject, email_body, DEFAULTEMAIL,
                       [new_user.email])
 
             return render_to_response("register.html", {"thanks": True})
@@ -109,7 +108,7 @@ def profile(request):
     
     return render_to_response("profile.html", {
         'pub_imp':pub_imp,
-        'domain': PRISTAVURL,
+        'domain': DEFAULTURL,
         'products': products,
         },
         context_instance=RequestContext(request))

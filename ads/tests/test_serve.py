@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
-# This file is part of Pristav.
+# This file is part of cuZmeură.
 # Copyright (c) 2009-2010 Ionuț Arțăriși
 
-# Chematoru' is free software: you can redistribute it and/or modify it under
+# cuZmeură is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Affero General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option)
 # any later version.
 
-# Pristav is distributed in the hope that it will be useful,
+# cuZmeură is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 
 # You should have received a copy of the GNU Affero General Public License
-# along with Pristav.  If not, see <http://www.gnu.org/licenses/>.
+# along with cuZmeură.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 from django.test import TestCase
-from pristav.ads.models import Impression, Ad, Product
+from ads.models import Impression, Ad, Product
 
 class ServeTests(TestCase):
     fixtures = ['ads.json']
@@ -37,7 +37,7 @@ class ServeTests(TestCase):
     def test_no_publisher(self):
         self._test_get_publisher('')
         
-    def test_pristav_publisher(self):
+    def test_default_publisher(self):
         self._test_get_publisher('default')
 
     def test_notexists_publisher(self):
@@ -70,10 +70,10 @@ class ServeTests(TestCase):
 
     def test_correct_referer_netloc(self):
         response = self.client.get('/serve/default/125x125',
-                                   HTTP_REFERER='http://pristav.ceata.org/xmpl')
+                                   HTTP_REFERER='http://cuzmeura.org/xmpl')
         impre = Impression.objects.all()[0]
-        self.assertEqual(impre.referer, 'http://pristav.ceata.org/xmpl')
-        self.assertEqual(impre.referer_netloc, 'http://pristav.ceata.org/')
+        self.assertEqual(impre.referer, 'http://cuzmeura.org/xmpl')
+        self.assertEqual(impre.referer_netloc, 'http://cuzmeura.org/')
         # clean up
         Impression.objects.all()[0].delete()
 
