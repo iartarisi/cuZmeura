@@ -54,7 +54,7 @@ class Impression(models.Model):
 
 class Publisher(models.Model):
     name = models.CharField(unique=True, max_length=20)
-    slug = models.SlugField(unique=True, max_length=10)
+    slug = models.SlugField(unique=True, max_length=15)
     url = models.URLField()
     owner = models.ForeignKey(User)
     def __unicode__(self):

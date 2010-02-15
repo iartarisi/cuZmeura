@@ -52,8 +52,8 @@ class UserRegistrationForm(forms.Form):
 
 class NewPublisherForm(forms.Form):
     # FIXME: test me!
-    name = forms.CharField(label="Nume")
-    slug = forms.CharField()
+    name = forms.CharField(label="Nume", max_length=20)
+    slug = forms.CharField(max_length=15)
     url = forms.URLField(label="URL")
     def __init__(self, user=None, *args, **kwargs):
         super(NewPublisherForm, self).__init__(*args, **kwargs)
