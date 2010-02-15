@@ -2,7 +2,7 @@
 
 from south.db import db
 from django.db import models
-from pristav.ads.models import *
+from cuZmeura.ads.models import *
 
 class Migration:
     
