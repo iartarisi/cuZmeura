@@ -23,7 +23,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ads.forms import UserRegistrationForm
+from ads.forms import UserRegistrationForm, NewPublisherForm
 from ads.models import (Ad, Impression, Product, Publisher, User,
                                 UserActivation)
 
@@ -59,11 +59,13 @@ def register(request):
             send_mail(email_subject, email_body, DEFAULTEMAIL,
                       [new_user.email])
 
-            return render_to_response("register.html", {"thanks": True})
+            return render_to_response("register.html", {"thanks": True},
+                                    context_instance=RequestContext(request))
     else:
         form = UserRegistrationForm()
     return render_to_response("register.html", {
-        'form': form})
+        'form': form},
+        context_instance=RequestContext(request))
 
 def confirm(request, activation_key):
     '''Handles confirmation of user accounts with email received activation key
@@ -75,16 +77,19 @@ def confirm(request, activation_key):
                                    activation_key=activation_key)
 
     if activation.key_expires < datetime.datetime.today():
-        return render_to_response("confirm.html", {"expired":True})
+        return render_to_response("confirm.html", {"expired":True},
+                                  context_instance=RequestContext(request))
 
     user = activation.user
 
     if user.is_active:
-        return render_to_response("confirm.html", {"already_active":True})
+        return render_to_response("confirm.html", {"already_active":True},
+                                  context_instance=RequestContext(request))
     else:
         user.is_active = True
         user.save()
-        return render_to_response("confirm.html", {"success":True})
+        return render_to_response("confirm.html", {"success":True},
+                                  context_instance=RequestContext(request))
     
 @login_required
 def profile(request):
@@ -96,6 +101,14 @@ def profile(request):
     :domain: use this to build nice snippets (should go away at some point)
     :products: a list of Product objects belonging to the user
     '''
+    form = NewPublisherForm()
+    if request.method == 'POST':
+        form = NewPublisherForm(request.user, request.POST)
+        if form.is_valid():
+            new_pub = form.save()
+            request.user.message_set.create(message=_(
+                u"Noul sait a fost adaugat cu succes."))
+        
     cur_user = User.objects.get(username=request.user.username)
     publishers = Publisher.objects.filter(owner=cur_user)
 
@@ -111,12 +124,13 @@ def profile(request):
         'pub_imp':pub_imp,
         'domain': DEFAULTURL,
         'products': products,
+        'form':form,
         },
         context_instance=RequestContext(request))
 
 @login_required
 def product(request, product):
-    '''
+    '''Get a product and its corresponding ads
     '''
 
     ads = Ad.objects.filter(product__name=product)
@@ -125,3 +139,58 @@ def product(request, product):
         'product':product,
         },
         context_instance=RequestContext(request))
+    
+@login_required
+def delete_pub(request, pub_slug):
+    '''Deletes the Publisher coresponding to the pub_slug
+
+    only if the publisher belongs to the current user.
+    '''
+    # FIXME: test me!
+    try:
+        pub = Publisher.objects.get(slug=pub_slug)
+    except Publisher.DoesNotExist:
+        request.user.message_set.create(message=_(u"Saitul apelat nu exista!"))
+        return redirect("/user/profile/")
+    else:
+        if request.user == pub.owner:
+            pub.delete()
+            request.user.message_set.create(message=_(u"Saitul a fost sters cu"
+                                            u" succes!"))
+        else:
+            request.user.message_set.create(message=_(u"Nu ai dreptul de a "
+                                                      u"sterge aceste sait!"))
+        return redirect("/user/profile/")
+
+@login_required
+def update_pub(request, pub_slug):
+    '''Edit the Publisher
+    '''
+    try:
+        pub = Publisher.objects.get(slug=pub_slug)
+    except Publisher.DoesNotExist:
+        request.user.message_set.create(message=_(u"Saitul apelat nu exista!"))
+        return redirect("/user/profile/")
+    else:
+        if request.method == 'POST':
+            if request.user == pub.owner:
+                form = NewPublisherForm(request.user, request.POST)
+                if form.is_valid():
+                    new_pub = form.save()
+                    request.user.message_set.create(message=_(
+                        u'Saitul a fost modificat cu succes!'))
+                else:
+                    return render_to_response("pub_form.html", {
+                        'form':form,
+                        'form_action': '/user/pub/edit/'+pub_slug,
+                        }, context_instance=RequestContext(request))
+            else:
+                request.user.message_set.create(message=_(
+                    u'Nu ai dreptul de a modifica acest sait!'))
+            return redirect("/user/profile/")
+        else:
+            form = NewPublisherForm()
+            return render_to_response("pub_form.html", {
+                'form':form,
+                'form_action': '/user/pub/edit/'+pub_slug
+                }, context_instance=RequestContext(request))

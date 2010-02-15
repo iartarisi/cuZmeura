@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
 from ads.serve import serve
-from ads.user import confirm, profile, product, register
+from ads.user import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -25,9 +25,14 @@ urlpatterns = patterns('',
 
     # User actions
     (r'^user/profile/$', profile),
+
     (r'^user/product/(\w+)/$', product),
     (r'^user/register/$', register),
     (r'^user/confirm/(\w+)$', confirm),
+                      
+#    (r'^user/pub/add/$', create_pub),
+    (r'^user/pub/edit/(\w+)$', update_pub),
+    (r'^user/pub/remove/(\w+)$', delete_pub),
 
     # Django contrib.admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -38,5 +43,5 @@ if settings.DEBUG:
     # serve static pages in development mode
     urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-         {'document_root': '/home/mapleoin/pristav/media'}),
+         {'document_root': '/home/mapleoin/cuZmeura/media'}),
     )

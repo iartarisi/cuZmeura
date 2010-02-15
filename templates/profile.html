@@ -11,11 +11,17 @@ Produsele tale:
 {% endif %}
 
 {% for pub, pubslug, imp, real in pub_imp %}
+
   <p>Contul tău <em>{{ pub }}</em> a generat până acum {{ real }}
-    impresii.</p>
+    impresii. <a href="/user/pub/edit/{{ pubslug }}">Modifică</a> | <a href="/user/pub/remove/{{ pubslug }}">Șterge</a></p>
 
   <p>Acesta este snippetul pe care îl poți folosi:</p>
   {% include "snippet.html" %}
+  <br /><br /><br />
 {% endfor %}
+
+<h3>Vrei să adaugi un sait?</h3>
+
+{% include "_pub_form.html" %}
 
 {% endblock %}

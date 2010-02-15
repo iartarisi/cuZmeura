@@ -1,4 +1,4 @@
-# Django settings for cuZmeură project.
+# Django settings for cuZmeura project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

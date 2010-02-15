@@ -18,7 +18,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from ads.models import User
+from ads.models import Publisher, User
 
 class UserRegistrationForm(forms.Form):
     username = forms.CharField()
@@ -29,18 +29,18 @@ class UserRegistrationForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username):
-            raise forms.ValidationError(_("An account with this username has "
-                                        "already been created."))
-        return username
-        
+            raise forms.ValidationError(_(u"Există deja un cont cu acest nume."
+                                          ))
+        return unicode(username)
+
     def clean_password2(self):
         password = self.cleaned_data['password'] or ''
         password2 = self.cleaned_data['password2']
         if password != password2:
-            raise forms.ValidationError(_("The two password fields must be the "
-                                        "same."))
+            raise forms.ValidationError(_(u"Cele două câmpuri pentru parolă "
+                                          u"trebuie să fie identice."))
         return password2
-        
+
     def save(self):
         new_user = User.objects.create_user(
             self.cleaned_data['username'],
@@ -49,5 +49,42 @@ class UserRegistrationForm(forms.Form):
         new_user.is_active = False
         new_user.save()
         return new_user
-        
 
+class NewPublisherForm(forms.Form):
+    # FIXME: test me!
+    name = forms.CharField(label="Nume")
+    slug = forms.CharField()
+    url = forms.URLField(label="URL")
+    def __init__(self, user=None, *args, **kwargs):
+        super(NewPublisherForm, self).__init__(*args, **kwargs)
+        self.owner = user
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Publisher.objects.filter(name=name):
+            raise forms.ValidationError(_(
+                u'Există deja un sait cu acest nume.'))
+        return name
+
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        if Publisher.objects.filter(slug=slug):
+            raise forms.ValidationError(_(
+                u'Există deja un sait cu acest slug.'))
+        return slug
+
+    def clean_url(self):
+        url = self.cleaned_data['url']
+        if Publisher.objects.filter(url=url):
+            raise forms.ValidationError(_(
+                u'Există deja un sait cu acest url'))
+        return url
+
+    def save(self):
+        new_pub = Publisher.objects.create(
+            name=self.cleaned_data['name'],
+            slug=self.cleaned_data['slug'],
+            url=self.cleaned_data['url'],
+            owner=self.owner)
+        new_pub.save()
+        return new_pub

@@ -1,0 +1,10 @@
+{% if form.errors %}
+    <p id="flash_error">
+      Te rugăm să corectezi erorile de mai jos.
+    </p>
+{% endif %}
+
+<form action="{{ form_action }}" method="post">
+  {{ form.as_p }}
+  <input type="submit" value="Adaugă sait">
+</form>

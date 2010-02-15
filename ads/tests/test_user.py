@@ -77,7 +77,8 @@ class RegistrationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register.html')
         self.assertFormError(response, 'form', 'password2',
-                             "The two password fields must be the same.")
+                             u"Cele două câmpuri pentru parolă trebuie să fie "
+                             u"identice.")
 
     def test_user_exists(self):
         '''POST two users with the same name
@@ -91,8 +92,7 @@ class RegistrationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register.html')
         self.assertFormError(response, 'form', 'username',
-                             'An account with this username has already been '
-                             'created.')
+                             u'Există deja un cont cu acest nume.')
                              
     def test_activate_with_key(self):
         '''POST good data and use validation key to confirm'''
