@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
+from ads.index import index
 from ads.serve import serve
 from ads.user import *
 
@@ -10,12 +11,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^$', direct_to_template, {'template' : 'index.html',
-                                 'extra_context': {
-                                     'domain':'http://localhost:8000/',
-                                     }
-                                 }),
-
+    (r'^$', index),
     (r'^login/$', 'django.contrib.auth.views.login',
      {'template_name': 'login.html'}),
     (r'^logout/$', 'django.contrib.auth.views.logout',
