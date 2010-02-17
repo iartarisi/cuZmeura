@@ -17,6 +17,7 @@
 
 from django import forms
 from django.utils.translation import ugettext as _
+from django.template.defaultfilters import slugify
 
 from ads.models import Publisher, User
 
@@ -53,7 +54,6 @@ class UserRegistrationForm(forms.Form):
 class NewPublisherForm(forms.Form):
     # FIXME: test me!
     name = forms.CharField(label="Nume", max_length=20)
-    slug = forms.CharField(max_length=15)
     url = forms.URLField(label="URL")
     def __init__(self, user=None, *args, **kwargs):
         super(NewPublisherForm, self).__init__(*args, **kwargs)
@@ -61,17 +61,10 @@ class NewPublisherForm(forms.Form):
 
     def clean_name(self):
         name = self.cleaned_data['name']
-        if Publisher.objects.filter(name=name):
+        if Publisher.objects.filter(slug=slugify(name)):
             raise forms.ValidationError(_(
                 u'Există deja un sait cu acest nume.'))
         return name
-
-    def clean_slug(self):
-        slug = self.cleaned_data['slug']
-        if Publisher.objects.filter(slug=slug):
-            raise forms.ValidationError(_(
-                u'Există deja un sait cu acest slug.'))
-        return slug
 
     def clean_url(self):
         url = self.cleaned_data['url']
@@ -83,7 +76,7 @@ class NewPublisherForm(forms.Form):
     def save(self):
         new_pub = Publisher.objects.create(
             name=self.cleaned_data['name'],
-            slug=self.cleaned_data['slug'],
+            slug=slugify(self.cleaned_data['name']),
             url=self.cleaned_data['url'],
             owner=self.owner)
         new_pub.save()
