@@ -18,6 +18,7 @@
 import datetime, hashlib, random
 
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -25,12 +26,8 @@ from django.utils.translation import ugettext as _
 
 from ads.forms import UserRegistrationForm, NewPublisherForm
 from ads.models import (Ad, Impression, Product, Publisher, User,
-                                UserActivation)
+                        UserActivation)
 
-# FIXME: use contrib.sites perhaps?
-# also check out the hardcoding in urls.py
-DEFAULTURL = 'http://cuzmeura.org/'
-DEFAULTEMAIL = 'contact@cuzmeura.org'
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -55,8 +52,8 @@ def register(request):
                            u"următoarele două zile, urmând legătură aceasta:"
                            u"\n %s" % (
                                new_user.username,
-                               DEFAULTURL+'user/confirm/'+activation_key))
-            send_mail(email_subject, email_body, DEFAULTEMAIL,
+                               settings.SITE_URL+'user/confirm/'+activation_key))
+            send_mail(email_subject, email_body, settings.SITE_EMAIL,
                       [new_user.email])
 
             return render_to_response("register.html", {"thanks": True},
@@ -122,7 +119,7 @@ def profile(request):
     
     return render_to_response("profile.html", {
         'pub_imp':pub_imp,
-        'domain': DEFAULTURL,
+        'domain': settings.SITE_URL,
         'products': products,
         'form':form,
         },
