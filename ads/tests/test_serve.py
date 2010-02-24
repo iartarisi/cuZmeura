@@ -69,6 +69,8 @@ class ServeTests(TestCase):
             self.assertEqual(response.status_code, 404)
 
     def test_correct_referer_netloc(self):
+        '''Test that the referer and the referer_netloc are stored correctly
+        '''
         response = self.client.get('/serve/default/120x90',
                                    HTTP_REFERER='http://cuzmeura.org/xmpl')
         impre = Impression.objects.all()[0]
@@ -77,6 +79,17 @@ class ServeTests(TestCase):
         # clean up
         Impression.objects.all()[0].delete()
 
+    def test_www_referer_netloc(self):
+        '''Referer with 'www.' is stored correctly
+        '''
+        response = self.client.get('/serve/',
+                                   HTTP_REFERER='http://www.cuzmeura.org/xmpl')
+        impre = Impression.objects.all()[0]
+        self.assertEqual(impre.referer, 'http://cuzmeura.org/xmpl')
+        self.assertEqual(impre.referer_netloc, 'http://cuzmeura.org/')
+        # clean up
+        Impression.objects.all()[0].delete()
+        
     def test_ads_sequentiality(self):
         '''Serve ads from each product sequentially
         '''

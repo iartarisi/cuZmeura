@@ -37,7 +37,7 @@ def serve_ad(request, slugpub=None, size=DEFAULT_SIZE):
     ad = get_ad(size)
 
     try:
-        referer = request.META["HTTP_REFERER"].replace('://www.', '://.')
+        referer = request.META["HTTP_REFERER"].replace('://www.', '://')
     except KeyError:
         referer = None
     else:
