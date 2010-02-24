@@ -26,7 +26,7 @@ DEFAULTSLUG = 'default'
 DEFAULT_SIZE= '120x90'
 NOIP = '10.0.0.1'
 
-def serve(request, slugpub=None, size=DEFAULT_SIZE):
+def serve_ad(request, slugpub=None, size=DEFAULT_SIZE):
     '''Serve an ad with the given slugpub and size
  
     see the get_ad docstring for how
