@@ -1,6 +1,6 @@
 @lightblue: #246673;
 @darkblue: #132730;
-@lightgray: #EEE;
+@lightgray: #BCC4A6;
 @darkgray: #383434;
 @magenta: #BF2C53;
 @lightpink: #FFE3EB;
@@ -64,18 +64,26 @@ img {
 }
 
 #loginbox {
-    background-color: @lightblue;
-    padding: 1em 3em;
+    padding: 1em;
     margin: 3em auto;
-    width: 20em;
-    border: double @lightgreen 1em;
-    color: @lightgreen;
-    td {
-        font-size: large;
+    width: 25em;
+    text-align: center;
+    color: @darkblue;
+    label {
+        width: 10em;
+        float: left;
+        font-size: 1.3em;
+        margin-right: .5em;
     }
     input {
-    margin: 1em;
-    font-size: large;
+        background-color: @lightgreen;
+        border: solid @lightblue 2px;
+        font-size: 1.3em;
+        margin: .5em;
+        }
+    input[type="submit"] {
+        font-size: 1.4em;
+        margin: .5em;
     }
 }
 

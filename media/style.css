@@ -26,8 +26,8 @@ h2 {
   margin: 0;
   background-color: #f5ffe5;
   padding: 0 3em 10em 3em;
-  border-left: solid 0.5em #eeeeee;
-  border-right: solid 0.5em #eeeeee;
+  border-left: solid 0.5em #bcc4a6;
+  border-right: solid 0.5em #bcc4a6;
   border-bottom: solid 2.5em #383434;
   min-height: 40em;
 }
@@ -44,17 +44,27 @@ h2 {
 }
 img { border: 0; }
 #loginbox {
-  background-color: #246673;
-  padding: 1em 3em;
+  padding: 1em;
   margin: 3em auto;
-  width: 20em;
-  border: double #f5ffe5 1em;
-  color: #f5ffe5;
+  width: 25em;
+  text-align: center;
+  color: #132730;
 }
-#loginbox td { font-size: large; }
+#loginbox label {
+  width: 10em;
+  float: left;
+  font-size: 1.3em;
+  margin-right: 0.5em;
+}
 #loginbox input {
-  margin: 1em;
-  font-size: large;
+  background-color: #f5ffe5;
+  border: solid #246673 2px;
+  font-size: 1.3em;
+  margin: 0.5em;
+}
+#loginbox input[type="submit"] {
+  font-size: 1.4em;
+  margin: 0.5em;
 }
 #authentication {
   padding: 2em 2em 0 0;
@@ -75,7 +85,7 @@ img { border: 0; }
 #smallprint {
   text-align: center;
   font-size: 0.7em;
-  color: #eeeeee;
+  color: #bcc4a6;
   line-height: 50%;
 }
 #smallprint a { color: white; }
