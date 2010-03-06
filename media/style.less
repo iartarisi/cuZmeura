@@ -1,0 +1,122 @@
+@lightblue: #246673;
+@darkblue: #132730;
+@lightgray: #EEE;
+@darkgray: #383434;
+@magenta: #BF2C53;
+@lightpink: #FFE3EB;
+@lightgreen: #f5ffe5;
+
+body {
+    background: @lightblue top left repeat;
+    font-family: sans-serif;
+    margin: 0;
+    padding-left: .5em;
+    padding-right: .5em;
+    border-left: 10.5em solid @darkblue;
+    border-right: 10.5em solid @darkblue;
+}
+
+a {
+    color: @lightblue;
+}
+
+h1 {
+    font-size: 2em;
+    padding: .6em 0 ;
+    margin: 0;
+    a {
+    color: #bf2c53;
+    text-decoration: none;
+    }
+    a:hover {
+    text-decoration: underline;
+    }
+}
+
+h2 {
+    font-size: 3em;
+    margin: 0;
+}
+
+#container {
+    margin: 0;
+    background-color: @lightgreen;    
+    padding: 0 3em 10em 3em;
+    border-left: solid .5em @lightgray;
+    border-right: solid .5em @lightgray;
+    border-bottom: solid 2.5em @darkgray;
+    min-height: 40em;
+}
+#content {
+    padding: 4em 0;
+    margin: 0;
+    color: @darkblue;
+    clear: both;
+}
+#antet {
+    margin-right: -10;
+    font-family: serif;
+    padding: 0;
+}
+
+img {
+    border: 0;
+}
+
+#loginbox {
+    background-color: @lightblue;
+    padding: 1em 3em;
+    margin: 3em auto;
+    width: 20em;
+    border: double @lightgreen 1em;
+    color: @lightgreen;
+    td {
+        font-size: large;
+    }
+    input {
+    margin: 1em;
+    font-size: large;
+    }
+}
+
+#authentication {
+    padding: 2em 2em 0 0;
+    margin: 0;
+    float: right;
+
+    a.buton {
+    text-transform:lowercase;
+    color: @lightgreen;
+    text-decoration: none;
+    background-color: @darkblue;
+    padding: 2em 6px 4px;
+    margin: 0;
+    }
+    a#special {background-color: @darkblue;}   
+    a#special.buton:hover {background-color:@darkblue;}
+    a.buton:hover {background-color:@darkblue;}
+}
+
+#smallprint {
+    text-align: center;
+    font-size: .7em;
+    color: @lightgray;
+    line-height: 50%;
+    a {
+        color: white;
+    }
+}
+
+#cuZmeura {
+    font-size: .6em;
+}
+
+#flash_error {
+    color: @magenta;
+}
+#messages {
+    color: @magenta;
+    border: 1px solid @magenta;
+    background-color: @lightpink;
+    padding: 0 1em;
+}
