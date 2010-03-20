@@ -8,24 +8,29 @@
       liber</a> românești. Și tu ne poți ajuta, folosind snippetul de mai
       jos.</p>
       
-      <p>Nu trebuie decât să copiezi codul ăsta pe situl tău:</p>
+      <p>Nu trebuie decât să copiezi codul de mai jos pe situl tău.</p>
+      <p>Poți vedea cum va arăta în dreapta.</p>
 
-      {% include "snippet.html" %}
-      
-      <br /><br />
-      <p>Va arăta așa (încearcă să reîncarci pagina):</p>
       <script type="text/javascript" src="{{ domain }}serve/{{ publisher }}">
         //<![CDATA[ (function(id) {
   document.write('<script type="text/javascript" src="' + '{{ domain }}serve/'
   + id + '"></' + 'script>'); })({{ publisher }}); //]]>
       </script>
 
-      <h3>Vrei mai mult?</h3>
-      <p>În curând, și tu te vei putea înregistra pentru un cont cuZmeură.
-        Astfel vei putea să vezi câte impresii generează situl tău și de unde
-        vin ele. În curând...</p>
-
+      {% include "snippet.html" %}
+      
       <br />
-      <p>Am servit până acum {{ impressions }} afișe</p>
+
+      <h3>Vrei mai mult?</h3>
+      <p>Acum te poți <a href="/user/register/">înregistra</a> pentru un cont
+        <a href="http://cuzmeura.org">cuZmeură</a>. Așa vei putea avea propriul
+        snippet, cu ajutorul căruia vei putea înregistra impresiile (de
+        câte ori a fost încărcată o pagină) de pe situl tău.</p>
+
+      <h3>Statistici</h3>
+      <p>Am servit până acum <strong>{{ impressions }}</strong> afișe.</p>
+      <p>Reclamele a <strong>{{ project_count }}</strong> proiecte sunt
+        afișate pe <strong>{{ publisher_count }} </strong> saituri înscrise
+        în rețea.</p>
       
 {% endblock %}

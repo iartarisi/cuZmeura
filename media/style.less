@@ -7,13 +7,30 @@
 @lightgreen: #f5ffe5;
 
 body {
-    background: @lightblue top left repeat;
+    background: @darkblue top left repeat;
     font-family: sans-serif;
     margin: 0;
-    padding-left: .5em;
-    padding-right: .5em;
-    border-left: 10.5em solid @darkblue;
-    border-right: 10.5em solid @darkblue;
+    padding: .3em .3em .5em .3em;
+    border-top: 1em solid @lightblue;
+    border-bottom: 0px solid @lightblue;
+    border-left: 10.5em solid @lightblue;
+    border-right: 10.5em solid @lightblue;
+}
+
+#container {
+    margin: 0;
+    background-color: white;
+    padding: 0 3em 5em 3em;
+    border-left: solid .5em @lightgreen;
+    border-right: solid .5em @lightgreen;
+    min-height: 45em;
+}
+
+#content {
+    padding: 2em 0;
+    margin: 0;
+    color: @darkblue;
+    clear: both;
 }
 
 a {
@@ -38,21 +55,6 @@ h2 {
     margin: 0;
 }
 
-#container {
-    margin: 0;
-    background-color: @lightgreen;    
-    padding: 0 3em 10em 3em;
-    border-left: solid .5em @lightgray;
-    border-right: solid .5em @lightgray;
-    border-bottom: solid 2.5em transparent;
-    min-height: 40em;
-}
-#content {
-    padding: 2em 0;
-    margin: 0;
-    color: @darkblue;
-    clear: both;
-}
 #antet {
     background: transparent url(clouds.png) bottom left repeat-x;
     font-family: serif;
@@ -74,7 +76,6 @@ img {
         font-size: 1.3em;
     }
     input {
-        background-color: @lightgreen;
         border: solid @lightblue 2px;
         font-size: 1.3em;
         margin: .5em;
@@ -111,15 +112,17 @@ img {
 #smallprint {
     text-align: center;
     font-size: .7em;
-    color: @lightgray;
+    color: @lightblue;
     line-height: 50%;
     a {
-        color: white;
+        color: @lightgreen;
     }
 }
 
 #cuZmeura {
     font-size: .6em;
+    clear: both;
+    float: right;
 }
 
 #flash_error {

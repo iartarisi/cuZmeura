@@ -19,17 +19,17 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from ads.models import Impression
+from ads.models import Impression, Product, Publisher
 
 def index(request):
     '''Front page - includes the total impressions so far.
     '''
     impressions = Impression.objects.count()
+    products_count = Product.objects.count()
+    publisher_count = Publisher.objects.count()
 
     return render_to_response('index.html', {
         'impressions':impressions,
         'domain':settings.SITE_URL
         },
         context_instance=RequestContext(request))
-                              
-                              

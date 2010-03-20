@@ -1,11 +1,26 @@
 body {
-  background: #246673 top left repeat;
+  background: #132730 top left repeat;
   font-family: sans-serif;
   margin: 0;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  border-left: 10.5em solid #132730;
-  border-right: 10.5em solid #132730;
+  padding: 0.3em 0.3em 0.5em 0.3em;
+  border-top: 1em solid #246673;
+  border-bottom: 0px solid #246673;
+  border-left: 10.5em solid #246673;
+  border-right: 10.5em solid #246673;
+}
+#container {
+  margin: 0;
+  background-color: white;
+  padding: 0 3em 5em 3em;
+  border-left: solid 0.5em #f5ffe5;
+  border-right: solid 0.5em #f5ffe5;
+  min-height: 45em;
+}
+#content {
+  padding: 2em 0;
+  margin: 0;
+  color: #132730;
+  clear: both;
 }
 a { color: #246673; }
 h1 {
@@ -21,21 +36,6 @@ h1 a:hover { text-decoration: underline; }
 h2 {
   font-size: 3em;
   margin: 0;
-}
-#container {
-  margin: 0;
-  background-color: #f5ffe5;
-  padding: 0 3em 10em 3em;
-  border-left: solid 0.5em #bcc4a6;
-  border-right: solid 0.5em #bcc4a6;
-  border-bottom: solid 2.5em transparent;
-  min-height: 40em;
-}
-#content {
-  padding: 2em 0;
-  margin: 0;
-  color: #132730;
-  clear: both;
 }
 #antet {
   background: transparent url(clouds.png) bottom left repeat-x;
@@ -55,7 +55,6 @@ img { border: 0; }
   font-size: 1.3em;
 }
 .authform input {
-  background-color: #f5ffe5;
   border: solid #246673 2px;
   font-size: 1.3em;
   margin: 0.5em;
@@ -86,11 +85,15 @@ img { border: 0; }
 #smallprint {
   text-align: center;
   font-size: 0.7em;
-  color: #bcc4a6;
+  color: #246673;
   line-height: 50%;
 }
-#smallprint a { color: white; }
-#cuZmeura { font-size: 0.6em; }
+#smallprint a { color: #f5ffe5; }
+#cuZmeura {
+  font-size: 0.6em;
+  clear: both;
+  float: right;
+}
 #flash_error { color: #bf2c53; }
 #messages {
   color: #bf2c53;
