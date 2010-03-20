@@ -17,29 +17,67 @@
 
 from django.test import TestCase
 
+from ads.models import Publisher
+
 class PublisherFormTests(TestCase):
-    fixtures = ['one_good_user']
+    fixtures = ['one_good_user', 'foo-bar-publisher']
     username = 'gigel'
     password = 'gigipass'
-    
-    def test_two_names_same_slug(self):
-        '''Two different names that generate the same slug must fail
-        '''
-        post_data1 = {
+    publisher_one = {
             'name': 'Foo Bâr#$*',
             'url': 'http://example.com'
-            }
-        post_data2 = {
-            'name': 'FOO BAR',
-            'url': 'http://example.com'
-            }
+        }
+    publisher_two = {
+            'name' : 'somethingelse',
+            'url' : 'http://example2.com'
+        }
+    slug = 'foo-bar'
+
+    def test_two_names_same_slug_new(self):
+        '''Two different names that generate the same slug must fail
+        '''
         login = self.client.login(username=self.username,
                                   password=self.password)
-        response = self.client.post('/user/profile/', post_data1)
-        self.assertEqual(response.status_code, 200)
-        response = self.client.post('/user/profile/', post_data2)
+        response = self.client.post('/user/profile/', self.publisher_one)
         self.assertFormError(response, 'form', 'name',
                              u'Există deja un sait cu acest nume.')
-
-            
         
+    def test_two_names_same_slug_edit(self):
+        '''Test that two different names with the same slug fail when editing
+
+        This has to be tested on a different publisher, otherwise we are just
+        modifying the existing one, which is legal.
+        '''
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        self.client.post('/user/profile/', self.publisher_two)
+        response = self.client.post(
+            '/user/pub/modify/%s' % self.publisher_two['name'],
+            self.publisher_one)
+        self.assertFormError(response, 'form', 'name',
+                            u'Există deja un sait cu acest nume sau unul '
+                            u'foarte similar.')
+        
+    def test_edit_name_and_url(self):
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        response = self.client.post('/user/pub/modify/%s' % self.slug,
+                                    self.publisher_one)
+        self.assertRedirects(response,
+                             '/user/pub/modify/%s' % self.slug,
+                             target_status_code=200)
+
+    def test_modify_without_logging_in(self):
+        response = self.client.post('/user/pub/modify/%s' % self.slug,
+                                    self.publisher_one)
+        self.assertRedirects(response,
+                             "/login/?next=/user/pub/modify/%s" % self.slug)
+        
+    def test_modifiy_pub_does_not_exist(self):
+        '''Try to modify a publisher that does not exist
+        '''
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        response = self.client.post('/user/pub/modify/%s' % self.slug,
+                                    self.publisher_one)
+        self.assertRedirects(response, '/user/pub/modify/%s' % self.slug)

@@ -5,18 +5,19 @@
 {% block content %}
 
   {% if form %}
-    <h2>Creează un cont</h2>
+    <div class="authform">
+      {% if form.errors %}
+      <p id="flash_error">
+        Te rugăm să corectezi erorile de mai jos.
+      </p>
+      {% endif %}
+      <form id="login" action="" method="post">
 
-    {% if form.errors %}
-    <p id="flash_error">
-      Te rugăm să corectezi erorile de mai jos.
-    </p>
-    {% endif %}
-
-    <form action="" method="post">
         {{ form.as_p }}
+
         <input type="submit" value="Creează contul">
-    </form>
+      </form>
+    </div>
   {% endif %}
 
   {% if thanks %}

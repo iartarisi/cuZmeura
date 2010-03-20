@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
-
 from ads.index import index
 from ads.serve import serve_ad
 from ads.user import *
@@ -14,8 +13,7 @@ urlpatterns = patterns('',
     (r'^$', index),
     (r'^login/$', 'django.contrib.auth.views.login',
      {'template_name': 'login.html'}),
-    (r'^logout/$', 'django.contrib.auth.views.logout',
-     {'next_page' : '/'}),
+    (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
                        
     (r'^serve/(\w+)?/?(\d+x\d+)?$', serve_ad),
 
@@ -25,10 +23,9 @@ urlpatterns = patterns('',
     (r'^user/product/(\w+)/$', product),
     (r'^user/register/$', register),
     (r'^user/confirm/(\w+)$', confirm),
-                      
-#    (r'^user/pub/add/$', create_pub),
-    (r'^user/pub/edit/(\w+)$', update_pub),
-    (r'^user/pub/remove/(\w+)$', delete_pub),
+                       
+    (r'^user/pub/remove/([-\w]+)$', delete_pub),
+    (r'^user/pub/modify/([-\w]+)$', modify_pub),                   
 
     # Django contrib.admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),

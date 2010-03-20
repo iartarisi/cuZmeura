@@ -43,31 +43,32 @@ h2 {
   padding: 0 0 70px;
 }
 img { border: 0; }
-#loginbox {
+.authform {
   padding: 1em;
-  margin: 3em auto;
+  margin: auto;
   width: 25em;
-  text-align: center;
   color: #132730;
 }
-#loginbox label {
+.authform label {
   width: 10em;
   float: left;
   font-size: 1.3em;
-  margin-right: 0.5em;
 }
-#loginbox input {
+.authform input {
   background-color: #f5ffe5;
   border: solid #246673 2px;
   font-size: 1.3em;
   margin: 0.5em;
 }
-#loginbox input[type="submit"] {
+.authform input[type="submit"] {
+  background-color: #246673;
+  color: #f5ffe5;
   font-size: 1.4em;
   margin: 0.5em;
 }
+.authform .login { margin: 3em auto; }
 #authentication {
-  padding: 2em 2em 0 0;
+  padding: 1.5em 2em 0 0;
   margin: 0;
   float: right;
 }
@@ -75,11 +76,11 @@ img { border: 0; }
   text-transform: lowercase;
   color: #f5ffe5;
   text-decoration: none;
-  background-color: #132730;
-  padding: 2em 6px 4px;
+  background-color: #246673;
+  padding: 1.5em 6px 4px;
   margin: 0;
 }
-#authentication a#special { background-color: #132730; }
+#authentication a#special { background-color: #bf2c53; }
 #authentication a#special.buton:hover { background-color: #132730; }
 #authentication a.buton:hover { background-color: #132730; }
 #smallprint {

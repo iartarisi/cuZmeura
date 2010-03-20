@@ -17,6 +17,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 class AdSize(models.Model):
     name = models.CharField(unique=True, max_length=20)
@@ -54,9 +55,12 @@ class Impression(models.Model):
 
 class Publisher(models.Model):
     name = models.CharField(unique=True, max_length=20)
-    slug = models.SlugField(unique=True, max_length=15)
-    url = models.URLField()
+    slug = models.SlugField(unique=True, max_length=15, editable=False)
+    url = models.URLField(unique=True)
     owner = models.ForeignKey(User)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Publisher, self).save(*args, **kwargs)
     def __unicode__(self):
         return u'#%s %s | Owner: %s' % (self.id, self.name,
                                         self.owner.username)

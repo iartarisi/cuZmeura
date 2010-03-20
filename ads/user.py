@@ -24,7 +24,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ads.forms import UserRegistrationForm, NewPublisherForm
+from ads.forms import * #UserRegistrationForm, NewPublisherForm, UpdatePublisherForm
 from ads.models import (Ad, Impression, Product, Publisher, User,
                         UserActivation)
 
@@ -129,7 +129,6 @@ def profile(request):
 def product(request, product):
     '''Get a product and its corresponding ads
     '''
-
     ads = Ad.objects.filter(product__name=product)
     return render_to_response("product.html", {
         'ads':ads,
@@ -156,12 +155,12 @@ def delete_pub(request, pub_slug):
                                             u" succes!"))
         else:
             request.user.message_set.create(message=_(u"Nu ai dreptul de a "
-                                                      u"sterge aceste sait!"))
+                                                      u"șterge aceste sait!"))
         return redirect("/user/profile/")
 
 @login_required
-def update_pub(request, pub_slug):
-    '''Edit the Publisher
+def modify_pub(request, pub_slug):
+    '''Page to do various modifications to an ad and delete it
     '''
     try:
         pub = Publisher.objects.get(slug=pub_slug)
@@ -171,23 +170,28 @@ def update_pub(request, pub_slug):
     else:
         if request.method == 'POST':
             if request.user == pub.owner:
-                form = NewPublisherForm(request.user, request.POST)
+                form = PublisherForm(request.POST, instance=pub)
                 if form.is_valid():
-                    new_pub = form.save()
+                    pub = form.save()
                     request.user.message_set.create(message=_(
                         u'Saitul a fost modificat cu succes!'))
                 else:
-                    return render_to_response("pub_form.html", {
+                    return render_to_response("modify_pub.html", {
                         'form':form,
-                        'form_action': '/user/pub/edit/'+pub_slug,
+                        'form_action': '/user/pub/modify/'+pub.slug,
+                        'pub_slug':pub.slug,
+                        'pub':pub,
                         }, context_instance=RequestContext(request))
             else:
                 request.user.message_set.create(message=_(
                     u'Nu ai dreptul de a modifica acest sait!'))
-            return redirect("/user/profile/")
+            return redirect("/user/pub/modify/%s" % pub.slug)
+                
         else:
-            form = NewPublisherForm()
-            return render_to_response("pub_form.html", {
+            form = PublisherForm(instance=pub)
+            return render_to_response("modify_pub.html", {
                 'form':form,
-                'form_action': '/user/pub/edit/'+pub_slug
+                'form_action': '/user/pub/modify/'+pub.slug,
+                'pub_slug':pub.slug,
+                'pub':pub,
                 }, context_instance=RequestContext(request))

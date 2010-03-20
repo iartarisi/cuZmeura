@@ -5,6 +5,8 @@
 {% endif %}
 
 <form action="{{ form_action }}" method="post">
-  {{ form.as_p }}
-  <input type="submit" value="Adaugă sait">
+  <table>
+  {{ form.as_table }}
+  </table>
+  <input type="submit" value="Salvează">
 </form>

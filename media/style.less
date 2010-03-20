@@ -55,8 +55,6 @@ h2 {
 }
 #antet {
     background: transparent url(clouds.png) bottom left repeat-x;
-
-
     font-family: serif;
     padding: 0 0 70px;
 }
@@ -65,17 +63,15 @@ img {
     border: 0;
 }
 
-#loginbox {
+.authform {
     padding: 1em;
-    margin: 3em auto;
+    margin: auto;
     width: 25em;
-    text-align: center;
     color: @darkblue;
     label {
         width: 10em;
         float: left;
         font-size: 1.3em;
-        margin-right: .5em;
     }
     input {
         background-color: @lightgreen;
@@ -84,13 +80,18 @@ img {
         margin: .5em;
         }
     input[type="submit"] {
+        background-color: @lightblue;
+        color: @lightgreen;
         font-size: 1.4em;
         margin: .5em;
+    }
+    .login {
+        margin: 3em auto;
     }
 }
 
 #authentication {
-    padding: 2em 2em 0 0;
+    padding: 1.5em 2em 0 0;
     margin: 0;
     float: right;
 
@@ -98,11 +99,11 @@ img {
     text-transform:lowercase;
     color: @lightgreen;
     text-decoration: none;
-    background-color: @darkblue;
-    padding: 2em 6px 4px;
+    background-color: @lightblue;
+    padding: 1.5em 6px 4px;
     margin: 0;
     }
-    a#special {background-color: @darkblue;}   
+    a#special {background-color: @magenta;}   
     a#special.buton:hover {background-color:@darkblue;}
     a.buton:hover {background-color:@darkblue;}
 }

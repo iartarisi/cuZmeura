@@ -81,3 +81,21 @@ class NewPublisherForm(forms.Form):
             owner=self.owner)
         new_pub.save()
         return new_pub
+
+class PublisherForm(forms.ModelForm):
+    class Meta:
+        model = Publisher
+        fields = ('name', 'url')
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Publisher.objects.filter(slug=slugify(name)
+                                ).exclude(id=self.instance.id):
+            raise forms.ValidationError(_(
+                u'Există deja un sait cu acest nume sau unul foarte similar.'))
+        return name
+    def clean_url(self):
+        url = self.cleaned_data['url']
+        if Publisher.objects.filter(url=url).exclude(id=self.instance.id):
+            raise forms.ValidationError(_(
+                u'Există deja un sait cu acest url'))
+        return url
