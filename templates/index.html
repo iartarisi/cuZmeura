@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-      <h3>Versiune beta privat.</h3>
+      <h3>Versiune beta public.</h3>
       <p>Vrem să promovăm comunitățile
       cu <a href="http://ro.wikipedia.org/wiki/Open_source">surse deschise</a>
       și <a href="http://ro.wikipedia.org/wiki/Free_software">software
-      liber</a> românești. Și tu ne poți ajuta, folosind snippetul de mai
-      jos.</p>
+      liber</a> românești. Și tu ne poți ajuta, copiind codul de mai
+      jos pe situl tău.</p>
       
-      <p>Nu trebuie decât să copiezi codul de mai jos pe situl tău.</p>
       <p>Poți vedea cum va arăta în dreapta.</p>
 
       <script type="text/javascript" src="{{ domain }}serve/{{ publisher }}">
@@ -26,11 +25,12 @@
         <a href="http://cuzmeura.org">cuZmeură</a>. Așa vei putea avea propriul
         snippet, cu ajutorul căruia vei putea înregistra impresiile (de
         câte ori a fost încărcată o pagină) de pe situl tău.</p>
+      <p>Află mai multe despre noi de <a href="/about/">aici</a>.</p>
 
-      <h3>Statistici</h3>
-      <p>Am servit până acum <strong>{{ impressions }}</strong> afișe.</p>
-      <p>Reclamele a <strong>{{ project_count }}</strong> proiecte sunt
-        afișate pe <strong>{{ publisher_count }} </strong> saituri înscrise
-        în rețea.</p>
+      <hr />
+      <p>Am servit până acum <strong>{{ impressions }}</strong> afișe,
+      promovând <strong>{{ project_count }}</strong> proiecte pe 
+      <strong>{{ publisher_count }} </strong> saituri înscrise
+      în rețea.</p>
       
 {% endblock %}

@@ -36,6 +36,17 @@
     </div>
 
     <div id="smallprint">
+      <p>
+        <a href="/">Acasă</a> |
+        {% if user.is_authenticated %}
+        <a href="/user/profile/">Profil</a> |
+        <a href="/logout/">Ieșire</a>|
+        {% else %}
+        <a href="/login/">Autentificare</a> |
+        <a href="/user/register/">Înregistrare</a>|
+        {% endif %}
+        <a href="/about/">Despre</a>
+      </p>
       <p>cuZmeură © 2010 - găzduit de <a href="http://sblug.ro">SbLUG</a></p>
       <p>Sursele
       sunt <a href="http://github.com/mapleoin/cuZmeura">disponibile</a> sub

@@ -5,7 +5,6 @@ from ads.index import index
 from ads.serve import serve_ad
 from ads.user import *
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
@@ -14,6 +13,7 @@ urlpatterns = patterns('',
     (r'^login/$', 'django.contrib.auth.views.login',
      {'template_name': 'login.html'}),
     (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    (r'^about/$', direct_to_template, { 'template': 'about.html'}),
                        
     (r'^serve/(\w+)?/?(\d+x\d+)?$', serve_ad),
 
