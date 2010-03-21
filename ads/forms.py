@@ -51,37 +51,6 @@ class UserRegistrationForm(forms.Form):
         new_user.save()
         return new_user
 
-class NewPublisherForm(forms.Form):
-    # FIXME: test me!
-    name = forms.CharField(label="Nume", max_length=20)
-    url = forms.URLField(label="URL")
-    def __init__(self, user=None, *args, **kwargs):
-        super(NewPublisherForm, self).__init__(*args, **kwargs)
-        self.owner = user
-
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        if Publisher.objects.filter(slug=slugify(name)):
-            raise forms.ValidationError(_(
-                u'Există deja un sait cu acest nume.'))
-        return name
-
-    def clean_url(self):
-        url = self.cleaned_data['url']
-        if Publisher.objects.filter(url=url):
-            raise forms.ValidationError(_(
-                u'Există deja un sait cu acest url'))
-        return url
-
-    def save(self):
-        new_pub = Publisher.objects.create(
-            name=self.cleaned_data['name'],
-            slug=slugify(self.cleaned_data['name']),
-            url=self.cleaned_data['url'],
-            owner=self.owner)
-        new_pub.save()
-        return new_pub
-
 class PublisherForm(forms.ModelForm):
     class Meta:
         model = Publisher
@@ -91,7 +60,7 @@ class PublisherForm(forms.ModelForm):
         if Publisher.objects.filter(slug=slugify(name)
                                 ).exclude(id=self.instance.id):
             raise forms.ValidationError(_(
-                u'Există deja un sait cu acest nume sau unul foarte similar.'))
+                u'Există deja un sait cu acest nume sau unul similar.'))
         return name
     def clean_url(self):
         url = self.cleaned_data['url']

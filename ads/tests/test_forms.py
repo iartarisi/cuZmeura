@@ -25,11 +25,11 @@ class PublisherFormTests(TestCase):
     password = 'gigipass'
     publisher_one = {
             'name': 'Foo Bâr#$*',
-            'url': 'http://example.com'
+            'url': 'http://example.com/'
         }
     publisher_two = {
             'name' : 'somethingelse',
-            'url' : 'http://example2.com'
+            'url' : 'http://example2.com/'
         }
     slug = 'foo-bar'
 
@@ -40,8 +40,9 @@ class PublisherFormTests(TestCase):
                                   password=self.password)
         response = self.client.post('/user/profile/', self.publisher_one)
         self.assertFormError(response, 'form', 'name',
-                             u'Există deja un sait cu acest nume.')
-        
+                             u'Există deja un sait cu acest nume sau unul '
+                             u'similar.')
+
     def test_two_names_same_slug_edit(self):
         '''Test that two different names with the same slug fail when editing
 
@@ -56,8 +57,8 @@ class PublisherFormTests(TestCase):
             self.publisher_one)
         self.assertFormError(response, 'form', 'name',
                             u'Există deja un sait cu acest nume sau unul '
-                            u'foarte similar.')
-        
+                            u'similar.')
+
     def test_edit_name_and_url(self):
         login = self.client.login(username=self.username,
                                   password=self.password)
@@ -72,7 +73,7 @@ class PublisherFormTests(TestCase):
                                     self.publisher_one)
         self.assertRedirects(response,
                              "/login/?next=/user/pub/modify/%s" % self.slug)
-        
+
     def test_modifiy_pub_does_not_exist(self):
         '''Try to modify a publisher that does not exist
         '''
@@ -81,3 +82,13 @@ class PublisherFormTests(TestCase):
         response = self.client.post('/user/pub/modify/%s' % self.slug,
                                     self.publisher_one)
         self.assertRedirects(response, '/user/pub/modify/%s' % self.slug)
+
+    def test_new_publisher_create(self):
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        response = self.client.post('/user/profile/', self.publisher_two)
+        p = Publisher.objects.exclude(slug=self.slug).all()[0]
+        
+        self.assertEqual(p.name, self.publisher_two['name'])
+        self.assertEqual(p.url, self.publisher_two['url'])
+        self.assertEqual(p.owner.username, self.username)

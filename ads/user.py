@@ -24,7 +24,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from ads.forms import * #UserRegistrationForm, NewPublisherForm, UpdatePublisherForm
+from ads.forms import UserRegistrationForm, PublisherForm
 from ads.models import (Ad, Impression, Product, Publisher, User,
                         UserActivation)
 
@@ -98,18 +98,19 @@ def profile(request):
     :domain: use this to build nice snippets (should go away at some point)
     :products: a list of Product objects belonging to the user
     '''
-    form = NewPublisherForm()
+    form = PublisherForm()
     if request.method == 'POST':
-        form = NewPublisherForm(request.user, request.POST)
+        form = PublisherForm(request.POST)
         if form.is_valid():
-            new_pub = form.save()
+            new_pub = form.save(commit=False)
+            new_pub.owner = request.user
+            new_pub.save()
             request.user.message_set.create(message=_(
                 u"Noul sait a fost adaugat cu succes."))
         
-    cur_user = User.objects.get(username=request.user.username)
-    publishers = Publisher.objects.filter(owner=cur_user)
+    publishers = Publisher.objects.filter(owner=request.user)
 
-    products = Product.objects.filter(owner=cur_user)
+    products = Product.objects.filter(owner=request.user)
 
     pub_imp = []
     for pub in publishers:
@@ -155,7 +156,7 @@ def delete_pub(request, pub_slug):
                                             u" succes!"))
         else:
             request.user.message_set.create(message=_(u"Nu ai dreptul de a "
-                                                      u"șterge aceste sait!"))
+                                                      u"șterge acest sait!"))
         return redirect("/user/profile/")
 
 @login_required

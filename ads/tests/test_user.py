@@ -243,5 +243,13 @@ class ProfileTests(TestCase):
                          Publisher.objects.filter(
                              owner__username=self.username).count())
 #        self.assertEqual(self.response.context['domain'], DEFAULTURL)
-
         self.assertEqual(self.response.context['pub_imp'], pub_imp)
+        
+    def test_delete_publisher(self):
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        user = User.objects.filter(username=self.username)
+        p = Publisher.objects.filter(owner=user)[0]
+        pid = p.id
+        self.client.get('/user/pub/remove/%s' % p.slug)
+        self.assertEqual(Publisher.objects.filter(id=pid).count(), 0)
