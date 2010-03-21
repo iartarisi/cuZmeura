@@ -25,11 +25,13 @@ def index(request):
     '''Front page - includes the total impressions so far.
     '''
     impressions = Impression.objects.count()
-    products_count = Product.objects.count()
+    product_count = Product.objects.count()
     publisher_count = Publisher.objects.count()
 
     return render_to_response('index.html', {
         'impressions':impressions,
-        'domain':settings.SITE_URL
+        'domain':settings.SITE_URL,
+        'project_count': product_count,
+        'publisher_count':publisher_count,
         },
         context_instance=RequestContext(request))
