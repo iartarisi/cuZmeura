@@ -2,7 +2,7 @@ body {
   background: #132730 top left repeat;
   font-family: sans-serif;
   margin: 0;
-  padding: 0.3em 0.3em 0.5em 0.3em;
+  padding: 0.1em 0.1em 0.5em;
   border-top: 1em solid #246673;
   border-bottom: 0px solid #246673;
   border-left: 10.5em solid #246673;
@@ -12,8 +12,8 @@ body {
   margin: 0;
   background-color: white;
   padding: 0 3em 5em 3em;
-  border-left: solid 0.5em #f5ffe5;
-  border-right: solid 0.5em #f5ffe5;
+  border-left: solid 1em #f5ffe5;
+  border-right: solid 1em #f5ffe5;
   min-height: 45em;
 }
 #content {
