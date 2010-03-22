@@ -41,7 +41,6 @@ class Ad(models.Model):
     accepted = models.BooleanField(default=False)
     def __unicode__(self):
         return u'#%s %s' % (self.id, self.name)
-
     
 class Impression(models.Model):
     ip = models.IPAddressField()

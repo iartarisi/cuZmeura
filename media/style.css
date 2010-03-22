@@ -4,14 +4,14 @@ body {
   margin: 0;
   padding: 0.1em 0.1em 0.5em;
   border-top: 1em solid #246673;
-  border-bottom: 0px solid #246673;
+  border-bottom: 1em solid #246673;
   border-left: 10.5em solid #246673;
   border-right: 10.5em solid #246673;
 }
 #container {
   margin: 0;
   background-color: white;
-  padding: 0 3em 5em 3em;
+  padding: 0 4em 5em 3em;
   border-left: solid 1em #f5ffe5;
   border-right: solid 1em #f5ffe5;
   min-height: 45em;
@@ -39,7 +39,6 @@ h2 {
 }
 #antet {
   background: transparent url(clouds.png) bottom left repeat-x;
-  font-family: serif;
   padding: 0 0 70px;
 }
 img { border: 0; }
