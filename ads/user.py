@@ -191,6 +191,7 @@ def modify_pub(request, pub_slug):
         else:
             form = PublisherForm(instance=pub)
             return render_to_response("modify_pub.html", {
+                'domain':settings.SITE_URL,
                 'form':form,
                 'form_action': '/user/pub/modify/'+pub.slug,
                 'pub_slug':pub.slug,
