@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from ads.index import index
 from ads.serve import serve_ad
+from ads.stats import graph_imp
 from ads.user import *
 
 from django.contrib import admin
@@ -27,6 +28,7 @@ urlpatterns = patterns('',
     (r'^user/pub/remove/([-\w]+)$', delete_pub),
     (r'^user/pub/modify/([-\w]+)$', modify_pub),                   
 
+    (r'^stats/', graph_imp),
     # Django contrib.admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
