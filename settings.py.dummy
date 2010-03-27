@@ -78,8 +78,9 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     # 'django.contrib.sites',
-    'cuZmeura.ads',
     'django.contrib.admin',
+    'django.contrib.humanize',
+    'cuZmeura.ads',
     'south',    
 )
 

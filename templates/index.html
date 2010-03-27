@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load humanize %}
 {% block content %}
       <h3>Bine ai venit!</h3>
       <p><a href="http://cuzmeura.org">cuZmeură</a> este un proiect de
@@ -44,7 +44,7 @@
       tichet <a href="http://github.com/mapleoin/cuZmeura/issues">aici</a>.</p>
 
       <hr />
-      <p>Am servit până acum <strong>{{ impressions }}</strong> afișe,
+      <p>Am servit până acum <strong>{{ impressions|intcomma }}</strong> afișe,
       promovând <strong>{{ project_count }}</strong> proiecte pe 
       <strong>{{ publisher_count }} </strong> saituri înscrise
       în rețea.</p>
