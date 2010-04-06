@@ -34,18 +34,30 @@ def graph_monthly_imp(publisher):
         SELECT EXTRACT(day FROM timestamp) AS days,
             COUNT(EXTRACT(day FROM timestamp))
          FROM ads_impression
-         WHERE age(timestamp) < interval '1 month' AND publisher = %s
+         WHERE age(timestamp) < interval '30 days' AND publisher = %s
          GROUP BY days ORDER BY days;
          """, [publisher.url])
     rows = cursor.fetchall()
     cursor.close()
 
+    # make sure that all the days are represented, even if they don't have an
+    # impression in the db
+    days = dict([(d, 0) for d in range(1, 31)])
+    days.update(rows)
+    rows = days.items()
+    
     # split in two months at current day, but leave the rows the same, because
     # pycha expects them to be ordered when drawing the graph
-    today = 10
+    today = datetime.today().day
     ticks = rows[today-1:] + rows[:today-1]
+
+    # keep the rows in the right order
+    # [(29, 1), (30, 2), (7, 41), (8, 42), (9, 43) etc. becomes:
+    # [(1, 1), (2, 2), (3, 41), (4, 42), (5, 43) etc.
+    rows = [(ticks.index((i, j)), j) for i, j in ticks]
+
     # pycha expects this to be a list of dicts like {Xaxis value: label}
-    ticks = [dict(v=i, label=int(l[0])) for i, l in enumerate(ticks, start=1)]
+    ticks = [dict(v=i, label=int(l[0])) for i, l in enumerate(ticks)]
     
     # fetchall returns tuples of floats for day numbers,
     # but pycha wants to iterate over ints so we do the casting ourselves
