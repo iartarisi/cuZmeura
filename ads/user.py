@@ -27,6 +27,7 @@ from django.utils.translation import ugettext as _
 from ads.forms import UserRegistrationForm, PublisherForm
 from ads.models import (Ad, Impression, Product, Publisher, User,
                         UserActivation)
+from ads.stats import graph_monthly_imp
 
 def register(request):
     if request.method == 'POST':
@@ -188,12 +189,14 @@ def modify_pub(request, pub_slug):
                     u'Nu ai dreptul de a modifica acest sait!'))
             return redirect("/user/pub/modify/%s" % pub.slug)
                 
-        else:
+        else: # GET
             form = PublisherForm(instance=pub)
+            graph_url = graph_monthly_imp(pub)
             return render_to_response("modify_pub.html", {
                 'domain':settings.SITE_URL,
                 'form':form,
                 'form_action': '/user/pub/modify/'+pub.slug,
                 'pub_slug':pub.slug,
                 'pub':pub,
+                'graph_url':graph_url,
                 }, context_instance=RequestContext(request))

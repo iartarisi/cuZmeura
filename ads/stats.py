@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with cuZmeură.  If not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import connection, transaction
 from django.http import HttpResponse
 from ads.models import Ad, Impression, Product, User
@@ -23,25 +24,34 @@ import cairo
 import pycha.line
 from datetime import datetime
 
-def graph_imp(request, user=None):
-    '''There is a time for ugly SQL (I would love to have this rewritten)
+def graph_monthly_imp(publisher):
+    '''Draw a graph of the last month Impressions of a given Publisher
+    Returns a png image
     '''
+    # There is a time for ugly SQL (I would love to have this rewritten)
     cursor = connection.cursor()
     cursor.execute("""
         SELECT EXTRACT(day FROM timestamp) AS days,
             COUNT(EXTRACT(day FROM timestamp))
-         FROM ads_impression WHERE age(timestamp) < interval '1 month'
+         FROM ads_impression
+         WHERE age(timestamp) < interval '1 month' AND publisher = %s
          GROUP BY days ORDER BY days;
-         """)
+         """, [publisher.url])
     rows = cursor.fetchall()
+    cursor.close()
 
-    # # split in two months at current day
-    # today = datetime.today().day
-    # rows = rows[today-1:] + rows[:today-1]
+    # split in two months at current day, but leave the rows the same, because
+    # pycha expects them to be ordered when drawing the graph
+    today = 10
+    ticks = rows[today-1:] + rows[:today-1]
+    # pycha expects this to be a list of dicts like {Xaxis value: label}
+    ticks = [dict(v=i, label=int(l[0])) for i, l in enumerate(ticks, start=1)]
     
     # fetchall returns tuples of floats for day numbers,
     # but pycha wants to iterate over ints so we do the casting ourselves
-    rows = tuple(map(lambda r:(int(r[0]), int(r[1])), rows))
+    rows = tuple(map(lambda r:
+                     (int(r[0]), int(r[1])),
+                     rows))
 
     # pycha datasets should look like this:
     # (('dataSet 1', ((0, 1), (1, 3), (2, 2.5))))
@@ -55,34 +65,43 @@ def graph_imp(request, user=None):
                 },
             },
         'axis': {
+            'labelFontSize':13,
+            'tickFontSize':11,
+            'tickSize':6.0,
             'x': {
-                'label' : 'Zile',
-                'tickCount': 30,
+                'ticks': ticks,
+                'label' : 'Ziua lunii',
                 },
             'y': {
-                'label' : 'Impresii'
+                'label' : 'Impresii',
+                'tickPrecision':0,
                 }
+            },
+        'stroke': {
+            'width':3,
             },
         'background' : {
             'chartColor': '#ffffff',
             'lineColor': '#FFE3EB',
             },
         'padding' : {
-            'left': 50,
+            'left': 70,
+            'bottom': 70,
             },
         'legend' : {
             'hide': True,
             },
 
         }
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 500, 300)
+    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 600, 300)
     chart = pycha.line.LineChart(surface, options)
     chart.addDataset(dataset)
     chart.render()
 
-    # FIXME I wish cairo knew how to output to a stream
-    surface.write_to_png('mytempimage.png')
-    f = open('mytempimage.png')
-    image = f.read()
-    f.close()
-    return HttpResponse(image, mimetype="image/png")
+    try:
+        surface.write_to_png('%sgraphs/%s.png' %
+                         (settings.MEDIA_ROOT, publisher.slug))
+        return '%sgraphs/%s.png' % (settings.MEDIA_URL, publisher.slug)
+    except:
+        return '%sgraphs/empty.png' % settings.MEDIA_URL
+
