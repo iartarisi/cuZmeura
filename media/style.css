@@ -11,7 +11,7 @@ body {
 #container {
   margin: 0;
   background-color: white;
-  padding: 0 4em 5em 3em;
+  padding: 0 4em 2em 3em;
   border-left: solid 1em #f5ffe5;
   border-right: solid 1em #f5ffe5;
   min-height: 45em;

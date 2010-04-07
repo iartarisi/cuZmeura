@@ -28,7 +28,7 @@ def index(request):
     product_count = Product.objects.count()
     publisher_count = Publisher.objects.count()
 
-    posts = Article.objects.filter(published=True)
+    posts = Article.objects.filter(published=True).order_by('-created_at')[:10]
     
     return render_to_response('index.html', {
         'impressions':impressions,
