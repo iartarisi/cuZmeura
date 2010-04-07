@@ -38,6 +38,18 @@ h2 {
   font-size: 3em;
   margin: 0;
 }
+h3 { color: #bf2c53; }
+.article h3 { margin: 0; }
+.article h3 a {
+  color: #bf2c53;
+  text-decoration: none;
+}
+.article h3 a:hover { text-decoration: underline; }
+.article h4 {
+  margin: 0;
+  color: #246673;
+  text-weight: normal;
+}
 #antet {
   background: transparent url(clouds.png) bottom left repeat-x;
   padding: 0 0 70px;
@@ -101,3 +113,11 @@ img { border: 0; }
   background-color: #ffe3eb;
   padding: 0 1em;
 }
+a.comment_link {
+  font-size: 0.7em;
+  color: #bf2c53;
+  text-decoration: none;
+  font-style: italic;
+  float: right;
+}
+a.comment_link:hover { text-decoration: underline; }

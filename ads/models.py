@@ -68,3 +68,13 @@ class UserActivation(models.Model):
     user = models.OneToOneField(User)
     activation_key = models.CharField(max_length=40)
     key_expires = models.DateTimeField()
+
+class Article(models.Model):
+    title = models.CharField(unique=True, max_length=80)
+    slug = models.SlugField(unique=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    published = models.BooleanField(default=False)
+    body = models.TextField()
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Article, self).save(*args, **kwargs)

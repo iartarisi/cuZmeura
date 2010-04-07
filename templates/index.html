@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+
 {% block content %}
       <h3>Bine ai venit!</h3>
       <p><a href="http://cuzmeura.org">cuZmeură</a> este un proiect de
@@ -43,10 +44,18 @@
       deschide un
       tichet <a href="http://github.com/mapleoin/cuZmeura/issues">aici</a>.</p>
 
-      <hr />
       <p>Am servit până acum <strong>{{ impressions|intcomma }}</strong> afișe,
       promovând <strong>{{ project_count }}</strong> proiecte pe 
       <strong>{{ publisher_count }} </strong> saituri înscrise
       în rețea.</p>
+
+      <hr />
+      <br />
+      {% for post in posts %}
+      {% include "_article.html"%}
+      <a class="comment_link" href="/blog/{{ post.slug }}#disqus_thread"
+         alt="comentarii">comment</a>
+      <br />
+      {% endfor %}
       
 {% endblock %}

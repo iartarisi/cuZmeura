@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
+from ads.blog import get_post
 from ads.index import index
 from ads.serve import serve_ad
 from ads.user import *
@@ -16,6 +17,8 @@ urlpatterns = patterns('',
     (r'^about/?$', direct_to_template, { 'template': 'about.html'}),
                        
     (r'^serve/(\w+)?/?(\d+x\d+)?$', serve_ad),
+
+    (r'^blog/(?P<slug>[\w\-]+)$', get_post),
 
     # User actions
     (r'^user/profile/$', profile),

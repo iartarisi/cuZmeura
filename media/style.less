@@ -56,6 +56,29 @@ h2 {
     margin: 0;
 }
 
+h3 {
+    color: @magenta;
+}
+
+.article {
+    h3 {
+        margin: 0;
+        a {
+          color: @magenta;
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+          
+        }
+    h4 {
+        margin: 0;
+        color: @lightblue;
+        text-weight: normal;
+        }
+}
+
 #antet {
     background: transparent url(clouds.png) bottom left repeat-x;
     padding: 0 0 70px;
@@ -134,3 +157,16 @@ img {
     background-color: @lightpink;
     padding: 0 1em;
 }
+
+a.comment_link {
+    font-size: .7em;
+    color: @magenta;
+    text-decoration: none;
+    font-style: italic;
+    float: right;
+}
+
+a.comment_link:hover {
+    text-decoration: underline;
+}
+
