@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from ads.blog import get_post
+from ads.feeds import latest
 from ads.index import index
 from ads.serve import serve_ad
 from ads.user import *
@@ -9,6 +10,9 @@ from ads.user import *
 from django.contrib import admin
 admin.autodiscover()
 
+feeds = {
+    'index': latest,
+}
 urlpatterns = patterns('',
     (r'^$', index),
     (r'^login/$', 'django.contrib.auth.views.login',
@@ -19,6 +23,8 @@ urlpatterns = patterns('',
     (r'^serve/(\w+)?/?(\d+x\d+)?$', serve_ad),
 
     (r'^blog/(?P<slug>[\w\-]+)$', get_post),
+    (r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {
+                           'feed_dict': feeds}),
 
     # User actions
     (r'^user/profile/$', profile),

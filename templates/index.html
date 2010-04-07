@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load humanize %}
 
+{% block header %}
+<link rel="alternate" type="application/rss+xml" title="Știrile cuZmeură" href="feed/index/" />
+{% endblock %}
+
 {% block content %}
       <h3>Bine ai venit!</h3>
       <p><a href="http://cuzmeura.org">cuZmeură</a> este un proiect de
