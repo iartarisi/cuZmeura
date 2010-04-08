@@ -15,7 +15,9 @@
       online; cu câteva mici diferențe:
         <ul>
           <li>serviciul nostru este gratuit pentru toată lumea</li>
-          <li>promovăm doar organizații și proiecte de <a href="http://www.gnu.org/philosophy/free-sw.ro.html">software liber</a></li>
+          <li>promovăm doar organizații și proiecte
+          de <a href="http://www.gnu.org/philosophy/free-sw.ro.html">software
+          liber</a></li>
           <li>oricine poate <a href="/about#contribuie">participa</a></li>
         </ul>
       </p>
@@ -41,17 +43,17 @@
         propriul snippet (ca cel de mai sus), cu ajutorul căruia vei putea
         înregistra impresiile (de câte ori a fost încărcată o pagină) de pe
         situl tău.</p>
+      <p>Ai un proiect liber pe care vrei să-l promovezi în rețeaua noastră?
+      Citește <a href="/proiecte/">regulile</a>, și contactează-ne.</p>
+      <p>Suntem abia la început și avem nevoie de mult ajutor pentru a realiza
+      ce ne-am propus. Ajută-ne și
+      tu, <a href="/about#contribuie">contribuind</a>!</p>
 
       <h3>Ai întrebări?</h3>
       <p>Află mai multe despre noi de <a href="/about/">aici</a>. Dacă ai o
       problemă cu site-ul sau ai o idee pe care ai vrea să o implementăm, poți
       deschide un
       tichet <a href="http://github.com/mapleoin/cuZmeura/issues">aici</a>.</p>
-
-      <p>Am servit până acum <strong>{{ impressions|intcomma }}</strong> afișe,
-      promovând <strong>{{ project_count }}</strong> proiecte pe 
-      <strong>{{ publisher_count }} </strong> saituri înscrise
-      în rețea.</p>
 
       <hr />
       <br />
@@ -61,5 +63,12 @@
          alt="comentarii">comment</a>
       <br /><br />
       {% endfor %}
+
+      <hr />
+      <p>Am servit până acum <strong>{{ impressions|intcomma }}</strong>
+      afișe, promovând <strong>{{ project_count }}</strong> proiecte pe
+      <strong>{{ publisher_count }} </strong> siteuri înscrise
+      în rețea.</p>
+
       
 {% endblock %}
