@@ -72,7 +72,8 @@ def get_ad(size):
     Return a 404 if nothing is found
     '''
 
-    products = Product.objects.filter(ad__size__size__exact=size).distinct()
+    products = Product.objects.filter(ad__size__size__exact=size,
+                                      ad__accepted=True).distinct()
     if not products:
         raise Http404
     
