@@ -36,7 +36,7 @@ class Ad(models.Model):
     name = models.CharField(unique=True, max_length=50)
     url = models.URLField()
     size = models.ForeignKey(AdSize)
-    image = models.ImageField(upload_to='ads/')
+    image = models.ImageField(upload_to='afise/')
     product = models.ForeignKey(Product)
     accepted = models.BooleanField(default=False)
     def __unicode__(self):
