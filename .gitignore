@@ -1,7 +1,7 @@
 settings.py
 test-settings.py
 media/admin
-media/ads/
+media/afise/
 media/graphs/*
 pristav.db
 *.pyc
