@@ -11,7 +11,7 @@
         Te rugăm să corectezi erorile de mai jos.
       </p>
       {% endif %}
-      <form id="login" action="" method="post">
+      <form id="login" action="" method="post">{% csrf_token %}
 
         {{ form.as_p }}
 
